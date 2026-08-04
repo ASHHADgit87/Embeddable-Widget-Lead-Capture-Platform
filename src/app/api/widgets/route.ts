@@ -1,0 +1,74 @@
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { createWidgetSchema } from "@/lib/validation/schemas";
+import {
+  createWidget,
+  listWidgetsForTenant,
+} from "@/lib/db/widgets.repository";
+import type { ApiResponse } from "@/types";
+import type { Widget } from "@prisma/client";
+
+export async function GET(): Promise<NextResponse<ApiResponse<Widget[]>>> {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: { code: "UNAUTHORIZED", message: "Sign in required" },
+      },
+      { status: 401 },
+    );
+  }
+
+  const widgets = await listWidgetsForTenant(session.user.id);
+  return NextResponse.json({ success: true, data: widgets });
+}
+
+export async function POST(
+  request: Request,
+): Promise<NextResponse<ApiResponse<Widget>>> {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: { code: "UNAUTHORIZED", message: "Sign in required" },
+      },
+      { status: 401 },
+    );
+  }
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "INVALID_JSON",
+          message: "Request body must be valid JSON",
+        },
+      },
+      { status: 400 },
+    );
+  }
+
+  const parsed = createWidgetSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "VALIDATION_ERROR",
+          message: "Invalid widget payload",
+          details: parsed.error.flatten(),
+        },
+      },
+      { status: 400 },
+    );
+  }
+
+  const widget = await createWidget(session.user.id, parsed.data);
+  return NextResponse.json({ success: true, data: widget }, { status: 201 });
+}
