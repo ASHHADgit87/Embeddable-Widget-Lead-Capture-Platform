@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Customer Site — Widget Embed Test</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 640px;
+        margin: 60px auto;
+        padding: 0 20px;
+        background: #f4f4f5;
+        color: #1a1a1a;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      p {
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>This is NOT the widget platform</h1>
+    <p>
+      This plain HTML page is served from a different origin than the widget
+      platform's API (e.g. <code>http://127.0.0.1:8080</code> vs
+      <code>http://localhost:3000</code>). It exists only to prove the embed and
+      submission flow works cross-origin.
+    </p>
+    <hr />
+
+    <script src="http://localhost:3000/api/widget-bundle/v1?id=WIDGET_ID"></script>
+  </body>
+</html>
