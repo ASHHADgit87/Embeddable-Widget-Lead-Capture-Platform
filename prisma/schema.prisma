@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum WidgetType {
+  SIGNUP_FORM
+  CONTACT_FORM
+  CTA_POPOVER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  widgets Widget[]
+
+  @@map("users")
+}
+
+model Widget {
+  id                String     @id @default(cuid())
+  tenantId          String
+  tenant            User       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  type              WidgetType
+  title             String
+  description       String?
+  buttonText        String     @default("Submit")
+  fields            Json
+  displayOptions    Json?
+  honeypotFieldName String     @default("company_website")
+  bundleVersion     Int        @default(1)
+  isActive          Boolean    @default(true)
+
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  submissions Submission[]
+
+  @@index([tenantId])
+  @@map("widgets")
+}
+
+model Submission {
+  id           String   @id @default(cuid())
+  widgetId     String
+  widget       Widget   @relation(fields: [widgetId], references: [id], onDelete: Cascade)
+  tenantId     String
+
+  data         Json
+  ipAddress    String?
+  country      String?
+  region       String?
+  city         String?
+  geoProvider  String?
+  geoFailed    Boolean  @default(false)
+  notifySent   Boolean  @default(false)
+  notifyError  String?
+
+  createdAt    DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([widgetId])
+  @@index([createdAt])
+  @@map("submissions")
+}
