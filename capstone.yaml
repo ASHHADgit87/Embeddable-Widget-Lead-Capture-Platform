@@ -1,0 +1,20 @@
+run: npm run dev
+seed: npx prisma db seed && npx tsx scripts/seed-demo-data.ts
+test: npm run test
+base_url: http://localhost:3000
+demo_login:
+  email: demo@widgetplatform.dev
+  password: demo12345
+probe_endpoints:
+  - method: POST
+    path: /api/submissions
+    description: Public hardened submission endpoint (CORS, validation, rate limit, spam, geo fallback)
+  - method: GET
+    path: /api/widgets/seed-widget-1/config
+    description: Public cached widget config
+  - method: GET
+    path: /api/widget-bundle/v1
+    description: Versioned, long-cached embed script
+  - method: GET
+    path: /api/dashboard/stats
+    description: Authenticated, tenant-scoped dashboard stats
