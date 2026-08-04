@@ -7,16 +7,14 @@ import { loginSchema } from "@/lib/validation/schemas";
 declare module "next-auth" {
   interface Session {
     user: {
-      id: string;
-      name: string;
-      email: string;
+      id?: string;
+      name?: string | null;
+      email?: string | null;
     };
   }
-}
 
-declare module "@auth/core/jwt" {
-  interface JWT {
-    id: string;
+  interface User {
+    id?: string;
   }
 }
 
@@ -51,14 +49,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
+      const tokenWithId = token as typeof token & { id?: string };
       if (user) {
-        token.id = user.id as string;
+        tokenWithId.id = (user as { id?: string }).id ?? tokenWithId.id;
       }
       return token;
     },
     async session({ session, token }) {
+      const tokenWithId = token as typeof token & { id?: string };
       if (session.user) {
-        session.user.id = token.id;
+        session.user.id = tokenWithId.id ?? "";
       }
       return session;
     },

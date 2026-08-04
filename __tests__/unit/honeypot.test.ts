@@ -32,4 +32,4 @@ describe("stripHoneypotField", () => {
     );
     expect(result).toEqual({ email: "a@b.com" });
   });
-});z
+});
