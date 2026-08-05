@@ -3,50 +3,35 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #f8fafc;
-  color: #0f172a;
-}
-
-:root {
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 * {
-  border-color: theme("colors.graphite.700");
+  border-color: theme("colors.blue.900");
 }
 
 body {
-  background-color: theme("colors.graphite.950");
-  color: theme("colors.graphite.100");
+  background-color: theme("colors.blue.950");
+  color: theme("colors.white");
   font-family: var(--font-sans);
 }
 
 ::selection {
-  background-color: theme("colors.accent.DEFAULT");
-  color: theme("colors.graphite.950");
+  background-color: theme("colors.purple.DEFAULT");
+  color: theme("colors.white");
 }
 
 ::-webkit-scrollbar {
   width: 10px;
 }
-
 ::-webkit-scrollbar-track {
-  background: theme("colors.graphite.950");
+  background: theme("colors.blue.950");
 }
-
 ::-webkit-scrollbar-thumb {
-  background: theme("colors.graphite.700");
+  background: theme("colors.purple.800");
   border-radius: 6px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: theme("colors.graphite.600");
+  background: theme("colors.green.700");
 }
