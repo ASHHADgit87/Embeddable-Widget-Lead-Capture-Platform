@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Widget Platform — Embeddable Widgets & Lead Capture",
   description:
     "Create embeddable widgets and safely capture leads from any website.",
-  icons: { icon: "/favicon.png" },
+  icons: { icon: "/favicon.ico" },
 };
 
 export default async function RootLayout({
