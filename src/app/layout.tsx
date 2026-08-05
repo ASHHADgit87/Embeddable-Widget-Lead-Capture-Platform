@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import { auth } from "@/auth";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/layout/navbar";
 import "./globals.css";
@@ -23,21 +22,16 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.ico" },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="relative antialiased">
         <Providers>
-          <Navbar
-            isAuthenticated={!!session?.user}
-            userEmail={session?.user?.email ?? undefined}
-          />
+          <Navbar />
           {children}
         </Providers>
       </body>

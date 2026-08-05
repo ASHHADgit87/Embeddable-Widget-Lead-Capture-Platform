@@ -3,13 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 
-interface NavbarProps {
-  isAuthenticated: boolean;
-  userEmail?: string;
-}
+interface NavbarProps {}
 
 const authedLinks = [
   { href: "/dashboard", label: "Overview" },
@@ -17,8 +14,11 @@ const authedLinks = [
   { href: "/profile", label: "Profile" },
 ];
 
-export function Navbar({ isAuthenticated, userEmail }: NavbarProps) {
+export function Navbar({}: NavbarProps) {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const isAuthenticated = !!session?.user;
+  const userEmail = session?.user?.email;
 
   return (
     <header className="sticky top-0 z-50 border-b border-blue-900 bg-blue-950/85 backdrop-blur-md">
