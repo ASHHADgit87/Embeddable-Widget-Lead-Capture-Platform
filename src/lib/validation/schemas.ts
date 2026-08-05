@@ -55,6 +55,15 @@ export const submissionPayloadSchema = z.object({
   data: submissionDataSchema,
 });
 
+export const updateProfileSchema = z.object({
+  name: z.string().min(1).max(120).optional(),
+  email: z.string().email().max(200).optional(),
+  currentPassword: z.string().min(1).max(72),
+  newPassword: z.string().min(8).max(72).optional(),
+});
+
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+
 export type CreateWidgetInput = z.infer<typeof createWidgetSchema>;
 export type UpdateWidgetInput = z.infer<typeof updateWidgetSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
