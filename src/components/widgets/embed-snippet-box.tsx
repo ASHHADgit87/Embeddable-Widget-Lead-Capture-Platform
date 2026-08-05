@@ -24,9 +24,9 @@ export function EmbedSnippetBox({
   }
 
   return (
-    <div className="rounded-md border border-graphite-700 bg-graphite-950 p-4">
+    <div className="rounded-md border border-neutral-700 bg-neutral-950 p-4">
       <div className="mb-2 flex items-center justify-between">
-        <p className="text-xs uppercase tracking-wide text-graphite-500">
+        <p className="text-xs uppercase tracking-wide text-neutral-500">
           Embed snippet
         </p>
         <Button size="sm" variant="ghost" onClick={handleCopy}>
@@ -38,7 +38,7 @@ export function EmbedSnippetBox({
           {copied ? "Copied" : "Copy"}
         </Button>
       </div>
-      <pre className="overflow-x-auto rounded bg-graphite-900 p-3 font-mono text-xs text-accent">
+      <pre className="overflow-x-auto rounded bg-neutral-900 p-3 font-mono text-xs text-green">
         {snippet}
       </pre>
     </div>
