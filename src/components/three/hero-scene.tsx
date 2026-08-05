@@ -26,22 +26,21 @@ export function HeroScene() {
   return (
     <>
       <ambientLight intensity={0.4} />
-      <directionalLight position={[3, 3, 3]} intensity={1.2} color="#c9a876" />
+      <directionalLight position={[3, 3, 3]} intensity={1.2} color="#3b5bdb" />
       <directionalLight
         position={[-3, -2, -3]}
-        intensity={0.5}
-        color="#4a4a52"
+        intensity={0.8}
+        color="#2f9e5b"
       />
       <Icosahedron ref={meshRef} args={[1.6, 8]}>
         <MeshDistortMaterial
           color="#18181b"
-          emissive="#c9a876"
-          emissiveIntensity={0.08}
+          emissive="#7048c9"
+          emissiveIntensity={0.15}
           roughness={0.15}
           metalness={0.85}
           distort={0.35}
           speed={1.4}
-          wireframe={false}
         />
       </Icosahedron>
     </>
