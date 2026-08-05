@@ -32,6 +32,17 @@ export default function LoginPage() {
       setError("Invalid email or password.");
       return;
     }
+    try {
+      const tokenRes = await fetch("/api/auth/token");
+      const tokenJson = await tokenRes.json();
+      if (tokenJson?.success && tokenJson.data?.token) {
+        localStorage.setItem("app_token", tokenJson.data.token);
+        localStorage.setItem(
+          "app_token_expires",
+          String(tokenJson.data.expiresAt),
+        );
+      }
+    } catch {}
 
     router.push(callbackUrl);
     router.refresh();

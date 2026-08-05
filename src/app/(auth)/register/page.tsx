@@ -1,12 +1,27 @@
 "use client";
-
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ParticleField } from "@/components/three/particle-field";
 
 export default function RegisterPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/user-exists");
+        const json = await res.json();
+        if (mounted && json?.success && json.data?.user_exists) {
+          router.push("/login");
+        }
+      } catch {}
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [router]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

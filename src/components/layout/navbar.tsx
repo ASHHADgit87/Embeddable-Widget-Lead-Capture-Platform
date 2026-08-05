@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface NavbarProps {}
@@ -18,6 +19,48 @@ export function Navbar({}: NavbarProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
+  const [userExists, setUserExists] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/user-exists");
+        const json = await res.json();
+        if (mounted && json?.success)
+          setUserExists(Boolean(json.data?.user_exists));
+      } catch {
+        if (mounted) setUserExists(true);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!session?.expires) return;
+    const exp = new Date(session.expires).getTime();
+    const ms = exp - Date.now();
+    if (ms <= 0) {
+      try {
+        localStorage.removeItem("app_token");
+        localStorage.removeItem("app_token_expires");
+      } catch {}
+      signOut({ redirectTo: "/" });
+      return;
+    }
+
+    const t = setTimeout(() => {
+      try {
+        localStorage.removeItem("app_token");
+        localStorage.removeItem("app_token_expires");
+      } catch {}
+      signOut({ redirectTo: "/" });
+    }, ms);
+
+    return () => clearTimeout(t);
+  }, [session?.expires]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-blue-900 bg-blue-950/85 backdrop-blur-md">
@@ -58,20 +101,34 @@ export function Navbar({}: NavbarProps) {
             <Button
               size="sm"
               variant="ghost"
-              onClick={() => signOut({ redirectTo: "/" })}
+              onClick={() => {
+                try {
+                  localStorage.removeItem("app_token");
+                  localStorage.removeItem("app_token_expires");
+                } catch {}
+                signOut({ redirectTo: "/" });
+              }}
             >
               Sign out
             </Button>
           ) : (
             <>
-              <Link href="/login">
-                <Button size="sm" variant="secondary">
-                  Sign in
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button size="sm">Get started</Button>
-              </Link>
+              {userExists === false ? (
+                <Link href="/register">
+                  <Button size="sm">Get started</Button>
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <Button size="sm" variant="secondary">
+                    Sign in
+                  </Button>
+                </Link>
+              )}
+              {userExists === false && (
+                <Link href="/register">
+                  <Button size="sm">Get started</Button>
+                </Link>
+              )}
             </>
           )}
         </div>
