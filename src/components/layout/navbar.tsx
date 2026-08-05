@@ -18,22 +18,23 @@ export function Navbar({}: NavbarProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
-  const userEmail = session?.user?.email;
 
   return (
     <header className="sticky top-0 z-50 border-b border-blue-900 bg-blue-950/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="Widget Platform"
-            width={210}
-            height={45}
-            priority
-          />
-        </Link>
+      <div className="mx-auto flex max-w-6xl items-center px-6 py-4">
+        <div className="flex items-center">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="Widget Platform"
+              width={210}
+              height={45}
+              priority
+            />
+          </Link>
+        </div>
 
-        <nav className="hidden items-center gap-6 sm:flex">
+        <nav className="hidden flex-1 justify-center items-center gap-6 sm:flex">
           <Link
             href="/"
             className={`text-sm transition ${pathname === "/" ? "text-green" : "text-white/70 hover:text-green"}`}
@@ -54,18 +55,13 @@ export function Navbar({}: NavbarProps) {
 
         <div className="flex items-center gap-3">
           {isAuthenticated ? (
-            <>
-              <span className="hidden text-sm text-white/50 sm:inline">
-                {userEmail}
-              </span>
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => signOut({ redirectTo: "/" })}
-              >
-                Sign out
-              </Button>
-            </>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => signOut({ redirectTo: "/" })}
+            >
+              Sign out
+            </Button>
           ) : (
             <>
               <Link href="/login">
