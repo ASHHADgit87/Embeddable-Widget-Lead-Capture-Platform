@@ -7,29 +7,20 @@ const config: Config = {
     extend: {
       colors: {
         white: "#ffffff",
-        blue: {
-          950: "#040a18",
-          900: "#0a1530",
-          800: "#0f2148",
-          700: "#163368",
-          DEFAULT: "#4d7cf0",
-          light: "#eaf0ff",
-          dark: "#3560c9",
+        emerald: {
+          950: "#02140d",
+          900: "#062a1b",
+          800: "#0a3f28",
+          700: "#0f5536",
+          600: "#146b44",
+          DEFAULT: "#00c853",
         },
         green: {
-          950: "#03130b",
-          900: "#082818",
-          800: "#0d3c24",
-          700: "#125032",
           DEFAULT: "#34c281",
           light: "#e6fbf1",
           dark: "#249a63",
         },
         purple: {
-          950: "#0d0620",
-          900: "#1c0f42",
-          800: "#2a1863",
-          700: "#3a2185",
           DEFAULT: "#9b5cf0",
           light: "#f4ecff",
           dark: "#7a3fd1",
