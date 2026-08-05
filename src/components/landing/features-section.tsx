@@ -26,28 +26,27 @@ const features = [
     icon: Globe,
     title: "Enrichment that degrades gracefully",
     description:
-      "IP geolocation runs through a two-provider fallback chain. If both providers fail, the submission is still stored — enrichment is a bonus, never a dependency.",
+      "IP geolocation runs through a two-provider fallback chain. If both providers fail, the submission is still stored.",
   },
   {
     icon: Layers,
     title: "True tenant isolation",
     description:
-      "Every query is scoped at the database layer. One customer can never read or modify another customer\u2019s widgets or submissions.",
+      "Every query is scoped at the database layer. One customer can never read or modify another customer's data.",
   },
 ];
 
 export function FeaturesSection() {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-24">
+    <section id="features" className="mx-auto max-w-5xl px-6 py-24">
       <div className="mb-12 text-center">
-        <h2 className="text-2xl font-semibold text-graphite-100">
+        <h2 className="text-2xl font-semibold text-white">
           Built for untrusted traffic
         </h2>
-        <p className="mt-2 text-graphite-400">
+        <p className="mt-2 text-white/50">
           The public internet is the input. Every layer assumes that.
         </p>
       </div>
-
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {features.map((feature, index) => (
           <motion.div
@@ -60,7 +59,7 @@ export function FeaturesSection() {
             <Card className="h-full">
               <CardHeader>
                 <feature.icon
-                  className="mb-3 h-5 w-5 text-accent"
+                  className={`mb-3 h-5 w-5 ${index % 2 === 0 ? "text-green" : "text-purple"}`}
                   strokeWidth={1.5}
                 />
                 <CardTitle>{feature.title}</CardTitle>

@@ -13,7 +13,7 @@ const SceneCanvas = dynamic(
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[90vh] items-center overflow-hidden border-b border-graphite-800">
+    <section className="relative flex min-h-[90vh] items-center overflow-hidden border-b border-neutral-800">
       <SceneCanvas />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
@@ -21,7 +21,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-accent"
+          className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-green"
         >
           Embeddable widgets, hardened for the open internet
         </motion.p>
@@ -30,7 +30,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-6 text-4xl font-semibold leading-tight text-graphite-100 sm:text-5xl"
+          className="mb-6 text-4xl font-semibold leading-tight text-neutral-50 sm:text-5xl"
         >
           One script tag.
           <br />A backend that survives the internet.
@@ -40,7 +40,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mx-auto mb-8 max-w-xl text-graphite-400"
+          className="mx-auto mb-8 max-w-xl text-neutral-400"
         >
           Create a widget, hand out a single embed snippet, and safely accept
           submissions from any website you don&apos;t control — validated,
