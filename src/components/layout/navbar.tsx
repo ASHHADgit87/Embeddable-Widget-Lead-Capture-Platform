@@ -27,8 +27,8 @@ export function Navbar({ isAuthenticated, userEmail }: NavbarProps) {
           <Image
             src="/logo.png"
             alt="Widget Platform"
-            width={165}
-            height={35}
+            width={210}
+            height={45}
             priority
           />
         </Link>
