@@ -16,13 +16,13 @@ const typeLabels: Record<Widget["type"], string> = {
 export function WidgetListItem({ widget }: WidgetListItemProps) {
   return (
     <Link href={`/widgets/${widget.id}`}>
-      <Card className="transition hover:border-accent/50">
+      <Card className="transition hover:border-blue/50">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-graphite-100">
+            <p className="text-sm font-medium text-neutral-50">
               {widget.title}
             </p>
-            <p className="mt-1 text-xs text-graphite-500">
+            <p className="mt-1 text-xs text-neutral-500">
               {typeLabels[widget.type]}
             </p>
           </div>

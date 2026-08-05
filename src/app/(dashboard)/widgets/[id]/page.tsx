@@ -10,19 +10,20 @@ interface PageProps {
 
 export default async function WidgetDetailPage({ params }: PageProps) {
   const session = await auth();
-  if (!session?.user) return null;
+  const userId = session?.user?.id;
+  if (!userId) return null;
 
   const { id } = await params;
-  const widget = await getWidgetForTenant(id, session.user.id);
+  const widget = await getWidgetForTenant(id, userId);
   if (!widget) notFound();
 
   return (
     <div className="max-w-2xl space-y-8">
       <div>
-        <h1 className="text-xl font-semibold text-graphite-100">
+        <h1 className="text-xl font-semibold text-neutral-50">
           {widget.title}
         </h1>
-        <p className="mt-1 text-sm text-graphite-400">
+        <p className="mt-1 text-sm text-neutral-500">
           Manage this widget and its embed snippet.
         </p>
       </div>

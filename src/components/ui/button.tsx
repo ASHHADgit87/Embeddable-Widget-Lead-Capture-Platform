@@ -10,11 +10,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-accent text-graphite-950 hover:bg-accent-bright",
-  secondary:
-    "bg-graphite-800 text-graphite-100 border border-graphite-600 hover:bg-graphite-700",
-  ghost: "bg-transparent text-graphite-200 hover:bg-graphite-800",
-  danger: "bg-signal-danger text-graphite-100 hover:opacity-90",
+  primary: "bg-green text-blue-950 hover:bg-green-dark",
+  secondary: "bg-blue-900 text-white border border-blue-700 hover:bg-blue-800",
+  ghost: "bg-transparent text-white/70 hover:bg-blue-900 hover:text-white",
+  danger: "bg-purple text-white hover:bg-purple-dark",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -27,21 +26,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { className, variant = "primary", size = "md", disabled, ...props },
     ref,
-  ) => {
-    return (
-      <button
-        ref={ref}
-        disabled={disabled}
-        className={cn(
-          "inline-flex items-center justify-center rounded-md font-medium transition disabled:cursor-not-allowed disabled:opacity-60",
-          variantClasses[variant],
-          sizeClasses[size],
-          className,
-        )}
-        {...props}
-      />
-    );
-  },
+  ) => (
+    <button
+      ref={ref}
+      disabled={disabled}
+      className={cn(
+        "inline-flex items-center justify-center rounded-md font-medium transition disabled:cursor-not-allowed disabled:opacity-60",
+        variantClasses[variant],
+        sizeClasses[size],
+        className,
+      )}
+      {...props}
+    />
+  ),
 );
 
 Button.displayName = "Button";

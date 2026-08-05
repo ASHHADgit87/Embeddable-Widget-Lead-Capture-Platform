@@ -1,0 +1,85 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+
+interface NavbarProps {
+  isAuthenticated: boolean;
+  userEmail?: string;
+}
+
+const authedLinks = [
+  { href: "/dashboard", label: "Overview" },
+  { href: "/widgets", label: "Widgets" },
+  { href: "/profile", label: "Profile" },
+];
+
+export function Navbar({ isAuthenticated, userEmail }: NavbarProps) {
+  const pathname = usePathname();
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-blue-900 bg-blue-950/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/logo.png"
+            alt="Widget Platform"
+            width={165}
+            height={35}
+            priority
+          />
+        </Link>
+
+        <nav className="hidden items-center gap-6 sm:flex">
+          <Link
+            href="/"
+            className={`text-sm transition ${pathname === "/" ? "text-green" : "text-white/70 hover:text-green"}`}
+          >
+            Home
+          </Link>
+          {isAuthenticated &&
+            authedLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm transition ${pathname === link.href ? "text-purple" : "text-white/70 hover:text-purple"}`}
+              >
+                {link.label}
+              </Link>
+            ))}
+        </nav>
+
+        <div className="flex items-center gap-3">
+          {isAuthenticated ? (
+            <>
+              <span className="hidden text-sm text-white/50 sm:inline">
+                {userEmail}
+              </span>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => signOut({ redirectTo: "/" })}
+              >
+                Sign out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button size="sm" variant="secondary">
+                  Sign in
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button size="sm">Get started</Button>
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+    </header>
+  );
+}
