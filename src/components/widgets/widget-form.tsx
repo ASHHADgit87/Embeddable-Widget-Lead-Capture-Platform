@@ -92,16 +92,16 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {error && <p className="text-sm text-signal-danger">{error}</p>}
+      {error && <p className="text-sm text-purple">{error}</p>}
 
       <div>
-        <label className="mb-1 block text-sm text-graphite-300">
+        <label className="mb-1 block text-sm text-neutral-300">
           Widget type
         </label>
         <select
           value={type}
           onChange={(e) => setType(e.target.value as Widget["type"])}
-          className="w-full rounded-md border border-graphite-600 bg-graphite-800 px-3 py-2 text-sm text-graphite-100 outline-none focus:border-accent"
+          className="w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-sm text-neutral-50 outline-none focus:border-blue"
         >
           <option value="SIGNUP_FORM">Signup form</option>
           <option value="CONTACT_FORM">Contact form</option>
@@ -110,7 +110,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-graphite-300">Title</label>
+        <label className="mb-1 block text-sm text-neutral-300">Title</label>
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -120,7 +120,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-graphite-300">
+        <label className="mb-1 block text-sm text-neutral-300">
           Description
         </label>
         <Input
@@ -131,7 +131,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-graphite-300">
+        <label className="mb-1 block text-sm text-neutral-300">
           Button text
         </label>
         <Input
@@ -143,7 +143,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
 
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <label className="text-sm text-graphite-300">Fields</label>
+          <label className="text-sm text-neutral-300">Fields</label>
           <Button
             type="button"
             size="sm"
@@ -158,7 +158,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
           {fields.map((field, index) => (
             <div
               key={index}
-              className="grid grid-cols-12 gap-2 rounded-md border border-graphite-700 p-3"
+              className="grid grid-cols-12 gap-2 rounded-md border border-neutral-700 p-3"
             >
               <Input
                 className="col-span-4"
@@ -173,7 +173,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
                 placeholder="Label"
               />
               <select
-                className="col-span-3 rounded-md border border-graphite-600 bg-graphite-800 px-2 py-2 text-sm text-graphite-100"
+                className="col-span-3 rounded-md border border-neutral-700 bg-neutral-900 px-2 py-2 text-sm text-neutral-50"
                 value={field.type}
                 onChange={(e) =>
                   updateField(index, {
@@ -190,7 +190,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
               <button
                 type="button"
                 onClick={() => removeField(index)}
-                className="col-span-1 text-xs text-signal-danger hover:underline"
+                className="col-span-1 text-xs text-purple hover:underline"
               >
                 Remove
               </button>

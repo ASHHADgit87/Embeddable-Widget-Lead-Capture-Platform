@@ -1,5 +1,5 @@
 declare module "@prisma/client" {
-  export type PrismaClient = any;
+  export const PrismaClient: any;
   export type WidgetType = "SIGNUP_FORM" | "CONTACT_FORM" | "CTA_POPOVER";
   export interface Widget {
     id: string;
