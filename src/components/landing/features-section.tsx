@@ -107,17 +107,17 @@ const accentClasses: Record<
 > = {
   green: {
     text: "text-[#c19bff]",
-    ring: "ring-[#c19bff]/30",
+    ring: "ring-[#c19bff]/10",
     bg: "bg-[#c19bff]/10",
   },
   purple: {
     text: "text-[#e2c6ff]",
-    ring: "ring-[#e2c6ff]/35",
+    ring: "ring-[#e2c6ff]/15",
     bg: "bg-[#e2c6ff]/10",
   },
   lightblue: {
     text: "text-[#a18eff]",
-    ring: "ring-[#a18eff]/30",
+    ring: "ring-[#a18eff]/10",
     bg: "bg-[#a18eff]/10",
   },
 };
@@ -149,7 +149,7 @@ function StackCard({
           scale,
           top: `calc(-6vh + ${index * 22}px)`,
         }}
-        className="relative flex w-full max-w-3xl origin-top flex-col gap-6 rounded-2xl border border-[#542184] bg-[#13051f]/80 p-8 shadow-[0_25px_80px_rgba(112,70,238,0.18)] backdrop-blur-md sm:flex-row sm:items-start sm:p-10"
+        className="relative flex w-full max-w-6xl origin-top flex-col gap-6 rounded-2xl border border-[#542184] bg-[#13051f]/80 p-8 shadow-[0_20px_70px_rgba(112,70,238,0.12)] backdrop-blur-md sm:flex-row sm:items-start sm:p-10 min-h-[235px]"
       >
         <div
           className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ring-1 ${colors.bg} ${colors.ring}`}
