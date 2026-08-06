@@ -137,7 +137,7 @@ function StackCard({
   accent,
   progress,
 }: StackCardProps) {
-  const targetScale = 1 - (total - index) * 0.045;
+  const targetScale = 1 - (total - index) * 0.05;
   const range: [number, number] = [index / total, 1];
   const scale = useTransform(progress, range, [1, targetScale]);
   const colors = accentClasses[accent];
@@ -178,7 +178,7 @@ export function FeaturesSection() {
   const container = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: container,
-    offset: ["start start", "end end"],
+    offset: ["start start", "end start"],
   });
 
   return (
