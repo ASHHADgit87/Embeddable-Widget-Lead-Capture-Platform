@@ -12,16 +12,16 @@ const productLinks = [
 ];
 
 const platformLinks = [
-  { href: "#features", label: "Public Submission API" },
-  { href: "#features", label: "Rate Limiting & Abuse Protection" },
-  { href: "#features", label: "Geo Enrichment" },
-  { href: "#features", label: "Tenant Isolation" },
+  { href: "#", label: "Public Submission API" },
+  { href: "#", label: "Rate Limiting & Abuse Protection" },
+  { href: "#", label: "Geo Enrichment" },
+  { href: "#", label: "Tenant Isolation" },
 ];
 
 const legalLinks = [
-  { href: "/legal/privacy", label: "Privacy Policy" },
-  { href: "/legal/terms", label: "Terms of Service" },
-  { href: "/legal/cookies", label: "Cookie Policy" },
+  { href: "/", label: "Privacy Policy" },
+  { href: "/", label: "Terms of Service" },
+  { href: "/", label: "Cookie Policy" },
 ];
 
 export function Footer() {

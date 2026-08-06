@@ -105,12 +105,7 @@ export function Navbar({}: NavbarProps) {
         </Link>
 
         <div className="hidden md:flex items-center gap-12 text-base font-bold text-white">
-          <Link
-            href="/"
-            className="text-white/70 hover:text-white transition-all"
-          >
-            Home
-          </Link>
+          
           <Link
             href="/about"
             className="text-white/70 hover:text-white transition-all"
@@ -218,9 +213,7 @@ export function Navbar({}: NavbarProps) {
           </div>
 
           <div className="flex flex-col gap-6 text-xl text-white font-bold">
-            <Link href="/" onClick={() => setMenuOpen(false)}>
-              Home
-            </Link>
+            
             <Link href="/about" onClick={() => setMenuOpen(false)}>
               About
             </Link>
