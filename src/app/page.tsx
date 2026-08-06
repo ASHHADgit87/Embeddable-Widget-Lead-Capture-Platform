@@ -288,7 +288,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#12031c] via-[#2d0a4a] to-[#18071f] text-white">
       <section className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-6 pb-12 pt-20 lg:grid-cols-2 lg:py-32">
-        <div className="-ml-[90px]">
+        <div className="lg:-ml-[90px]">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-green">
             Embeddable widgets, hardened for the open internet
           </p>
@@ -379,14 +379,7 @@ export default function HomePage() {
           </Canvas>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 -bottom-2 hidden justify-center lg:flex">
-          <div className="flex flex-col items-center gap-1 text-white/30">
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
-              Scroll
-            </span>
-            <span className="h-8 w-px animate-pulse bg-gradient-to-b from-white/40 to-transparent" />
-          </div>
-        </div>
+        
       </section>
 
       <HowItWorks />
