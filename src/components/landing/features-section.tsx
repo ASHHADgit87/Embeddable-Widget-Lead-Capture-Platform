@@ -145,7 +145,7 @@ function StackCard({
   const colors = accentClasses[accent];
 
   return (
-    <div className="sticky top-0 flex h-screen items-center justify-center px-6">
+    <div className="sticky top-0 flex h-screen items-start justify-center px-6 pt-[15vh]">
       <motion.div
         ref={cardRef}
         style={{
@@ -187,7 +187,7 @@ export function FeaturesSection() {
 
   return (
     <section id="features" ref={container} className="relative">
-      <div className="top-0 z-10 mx-auto max-w-5xl px-6 pb-4 pt-24 text-center">
+      <div className="top-0 z-10 mx-auto max-w-5xl px-6 pb-2 pt-12 text-center">
         <h2 className="text-2xl font-semibold text-white">
           Built for untrusted traffic
         </h2>
