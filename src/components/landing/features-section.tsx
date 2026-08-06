@@ -187,7 +187,7 @@ export function FeaturesSection() {
 
   return (
     <section id="features" ref={container} className="relative">
-      <div className="sticky top-0 z-10 mx-auto max-w-5xl px-6 pb-4 pt-24 text-center">
+      <div className="top-0 z-10 mx-auto max-w-5xl px-6 pb-4 pt-24 text-center">
         <h2 className="text-2xl font-semibold text-white">
           Built for untrusted traffic
         </h2>

@@ -52,6 +52,9 @@ function RopeMesh({ progress, total, cardRefs }: RopeProps) {
   const { size } = useThree();
   const ropeTexture = useRopeTexture();
 
+  const lastActiveIndexRef = useRef<number>(-1);
+  const initialGapRef = useRef<number>(0);
+
   useEffect(() => {
     return () => {
       meshRef.current?.geometry.dispose();
@@ -79,10 +82,12 @@ function RopeMesh({ progress, total, cardRefs }: RopeProps) {
       activeIndex = segmentIndex + 1;
       localT = (segmentFrac - handoff) / (1 - handoff);
     }
+
     if (activeIndex < 1) {
       activeIndex = 1;
       localT = Math.min(rawIndex, 1);
     }
+
     if (activeIndex > total - 1) {
       material.opacity = 0;
       return;
@@ -104,6 +109,23 @@ function RopeMesh({ progress, total, cardRefs }: RopeProps) {
 
     const pulledX = pulledRect.left + pulledRect.width / 2 - size.width / 2;
     const pulledY = size.height / 2 - pulledRect.top;
+
+    const currentGap = Math.max(0, pulledRect.top - anchorRect.bottom);
+
+    if (activeIndex !== lastActiveIndexRef.current) {
+      lastActiveIndexRef.current = activeIndex;
+      initialGapRef.current = Math.max(currentGap, 1);
+    }
+
+    if (localT < 0.1 && currentGap > initialGapRef.current) {
+      initialGapRef.current = currentGap;
+    }
+
+    const gapRatio = THREE.MathUtils.clamp(
+      currentGap / initialGapRef.current,
+      0,
+      1,
+    );
 
     const tension = THREE.MathUtils.smoothstep(localT, 0, 0.85);
     const sagAmplitude = THREE.MathUtils.lerp(26, 3, tension);
@@ -130,7 +152,7 @@ function RopeMesh({ progress, total, cardRefs }: RopeProps) {
 
     const fadeIn = THREE.MathUtils.smoothstep(localT, 0, 0.06);
 
-    const fadeOut = 1 - THREE.MathUtils.smoothstep(localT, 0.72, 0.84);
+    const fadeOut = THREE.MathUtils.smoothstep(gapRatio, 0.02, 0.18);
     material.opacity = fadeIn * fadeOut;
   });
 
