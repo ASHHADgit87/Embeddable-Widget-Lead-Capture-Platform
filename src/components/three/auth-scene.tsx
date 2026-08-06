@@ -7,7 +7,7 @@ import type { Group, Mesh, Points } from "three";
 
 const PARTICLE_COUNT = 140;
 
-function AuthSceneContent() {
+function WidgetShape({ xOffset }: { xOffset: number }) {
   const groupRef = useRef<Group>(null);
   const widgetGroupRef = useRef<Group>(null);
   const coreRef = useRef<Mesh>(null);
@@ -15,7 +15,6 @@ function AuthSceneContent() {
   const ring2Ref = useRef<Mesh>(null);
   const ring3Ref = useRef<Mesh>(null);
   const particlesRef = useRef<Points>(null);
-  const gridRef = useRef<Mesh>(null);
 
   const { positions, radii, angles, axis } = useMemo(() => {
     const positions = new Float32Array(PARTICLE_COUNT * 3);
@@ -84,10 +83,6 @@ function AuthSceneContent() {
     if (ring2Ref.current) ring2Ref.current.rotation.z -= delta * 0.1;
     if (ring3Ref.current) ring3Ref.current.rotation.y += delta * 0.06;
 
-    if (gridRef.current) {
-      gridRef.current.position.y = -2.4 + Math.sin(time * 0.4) * 0.04;
-    }
-
     const positionAttribute = particlesRef.current?.geometry.attributes
       .position as THREE.BufferAttribute | undefined;
 
@@ -107,16 +102,16 @@ function AuthSceneContent() {
   });
 
   return (
-    <group ref={groupRef}>
-      <mesh ref={gridRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.4, 0]}>
-        <planeGeometry args={[28, 28, 24, 24]} />
-        <meshBasicMaterial color="#9b5cf0" wireframe transparent opacity={0.07} />
-      </mesh>
-
+    <group ref={groupRef} position={[xOffset, 0, 0]}>
       <group ref={widgetGroupRef} position={[0, 0.15, 0]}>
         <mesh>
           <boxGeometry args={[2.4, 1.5, 0.1]} />
-          <meshBasicMaterial color="#8f5cf0" wireframe transparent opacity={0.32} />
+          <meshBasicMaterial
+            color="#8f5cf0"
+            wireframe
+            transparent
+            opacity={0.32}
+          />
         </mesh>
         <mesh position={[0, 0, 0.06]}>
           <boxGeometry args={[1.9, 0.08, 0.02]} />
@@ -124,7 +119,12 @@ function AuthSceneContent() {
         </mesh>
         <mesh ref={coreRef} position={[0, 0, 0.2]}>
           <icosahedronGeometry args={[0.5, 1]} />
-          <meshBasicMaterial color="#9b5cf0" wireframe transparent opacity={0.55} />
+          <meshBasicMaterial
+            color="#9b5cf0"
+            wireframe
+            transparent
+            opacity={0.55}
+          />
         </mesh>
       </group>
 
@@ -146,7 +146,10 @@ function AuthSceneContent() {
       <points ref={particlesRef}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-          <bufferAttribute attach="attributes-color" args={[particleColors, 3]} />
+          <bufferAttribute
+            attach="attributes-color"
+            args={[particleColors, 3]}
+          />
         </bufferGeometry>
         <pointsMaterial
           size={0.04}
@@ -157,12 +160,43 @@ function AuthSceneContent() {
           blending={THREE.AdditiveBlending}
         />
       </points>
+    </group>
+  );
+}
+
+function AuthSceneContent() {
+  const gridRef = useRef<Mesh>(null);
+
+  useFrame((state) => {
+    const time = state.clock.elapsedTime;
+    if (gridRef.current) {
+      gridRef.current.position.y = -2.4 + Math.sin(time * 0.4) * 0.04;
+    }
+  });
+
+  return (
+    <>
+      <mesh
+        ref={gridRef}
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, -2.4, 0]}
+      >
+        <planeGeometry args={[32, 32, 24, 24]} />
+        <meshBasicMaterial
+          color="#9b5cf0"
+          wireframe
+          transparent
+          opacity={0.07}
+        />
+      </mesh>
+      <WidgetShape xOffset={-7} />
+      <WidgetShape xOffset={7} />
 
       <ambientLight intensity={0.55} />
       <pointLight position={[4, 3, 5]} intensity={1.3} color="#9b5cf0" />
       <pointLight position={[-4, -2, 4]} intensity={0.9} color="#8b5e34" />
       <pointLight position={[0, -3, 2]} intensity={0.6} color="#6f9dfb" />
-    </group>
+    </>
   );
 }
 
@@ -171,7 +205,7 @@ export function AuthScene() {
     <div className="pointer-events-none fixed inset-0 -z-10">
       <div className="absolute inset-0 bg-[#12031c]" />
       <Canvas
-        camera={{ position: [0, 0.4, 9], fov: 48 }}
+        camera={{ position: [0, 0.4, 12], fov: 52 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
       >
