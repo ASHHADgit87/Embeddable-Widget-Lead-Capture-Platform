@@ -4,11 +4,11 @@
 
 :root {
   --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 * {
-  border-color: theme('colors.emerald.800');
+  border-color: theme("colors.emerald.800");
 }
 
 html,
@@ -17,13 +17,13 @@ body {
 }
 
 body {
-  background-color: theme('colors.emerald.950');
-  color: theme('colors.white');
+  background-color: #12031c;
+  color: theme("colors.white");
 }
 
 ::selection {
-  background-color: theme('colors.purple.DEFAULT');
-  color: theme('colors.white');
+  background-color: theme("colors.purple.DEFAULT");
+  color: theme("colors.white");
 }
 
 html {

@@ -1,7 +1,8 @@
 "use client";
 
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { Mesh, Points, Group } from "three";
@@ -24,8 +25,8 @@ function RainbowGem() {
   const speedRef = useRef(1);
 
   const geometry = useMemo(() => {
-    const geo = new THREE.OctahedronGeometry(1.4, 0); 
-    const nonIndexed = geo.toNonIndexed();
+    const geo = new THREE.OctahedronGeometry(1.4, 0);
+    const nonIndexed = geo.index ? geo.toNonIndexed() : geo;
     const posAttr = nonIndexed.attributes.position as THREE.BufferAttribute;
     const colors = new Float32Array(posAttr.count * 3);
 
@@ -48,7 +49,6 @@ function RainbowGem() {
     return nonIndexed;
   }, []);
 
-  
   const { particlePositions, particleRadii, particleAngles, particleSpeeds } =
     useMemo(() => {
       const particlePositions = new Float32Array(PARTICLE_COUNT * 3);
@@ -57,7 +57,7 @@ function RainbowGem() {
       const particleSpeeds: number[] = [];
 
       for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const radius = 2.4 + Math.random() * 1.2; 
+        const radius = 2.4 + Math.random() * 1.2;
         const angle = Math.random() * Math.PI * 2;
         const y = (Math.random() - 0.5) * 2.2;
 
@@ -70,15 +70,21 @@ function RainbowGem() {
         particlePositions[i * 3 + 2] = Math.sin(angle) * radius;
       }
 
-      return { particlePositions, particleRadii, particleAngles, particleSpeeds };
+      return {
+        particlePositions,
+        particleRadii,
+        particleAngles,
+        particleSpeeds,
+      };
     }, []);
 
   const particleYs = useMemo(
-    () => Array.from({ length: PARTICLE_COUNT }, () => (Math.random() - 0.5) * 2.2),
-    []
+    () =>
+      Array.from({ length: PARTICLE_COUNT }, () => (Math.random() - 0.5) * 2.2),
+    [],
   );
   const particleOrbitProgress = useRef(
-    Array.from({ length: PARTICLE_COUNT }, () => Math.random())
+    Array.from({ length: PARTICLE_COUNT }, () => Math.random()),
   );
 
   useFrame((_, delta) => {
@@ -95,13 +101,16 @@ function RainbowGem() {
     if (ring2Ref.current) ring2Ref.current.rotation.z -= delta * 0.22 * speed;
     if (ring3Ref.current) ring3Ref.current.rotation.z += delta * 0.15 * speed;
 
-    const posAttr = particlesRef.current?.geometry.attributes
-      .position as THREE.BufferAttribute | undefined;
+    const posAttr = particlesRef.current?.geometry.attributes.position as
+      | THREE.BufferAttribute
+      | undefined;
     if (posAttr) {
       const arr = posAttr.array as Float32Array;
       for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particleOrbitProgress.current[i]! += delta * particleSpeeds[i]! * 0.15 * speed;
-        if (particleOrbitProgress.current[i]! > 1) particleOrbitProgress.current[i]! = 0;
+        particleOrbitProgress.current[i]! +=
+          delta * particleSpeeds[i]! * 0.15 * speed;
+        if (particleOrbitProgress.current[i]! > 1)
+          particleOrbitProgress.current[i]! = 0;
 
         const progress = particleOrbitProgress.current[i]!;
         const radius = particleRadii[i]! * (1 - progress * 0.6);
@@ -135,10 +144,9 @@ function RainbowGem() {
         />
       </mesh>
 
-  
       <mesh ref={ring1Ref} rotation={[Math.PI / 2.3, 0, 0]}>
         <torusGeometry args={[1.9, 0.02, 8, 96]} />
-        <meshBasicMaterial color="#34c281" transparent opacity={0.85} />
+        <meshBasicMaterial color="#8b5e34" transparent opacity={0.85} />
       </mesh>
       <mesh ref={ring2Ref} rotation={[Math.PI / 1.7, Math.PI / 5, 0]}>
         <torusGeometry args={[2.2, 0.02, 8, 96]} />
@@ -176,8 +184,31 @@ function RainbowGem() {
 }
 
 export default function HomePage() {
+  const { data: session, status } = useSession();
+  const [userExists, setUserExists] = useState<boolean | null>(null);
+  const isAuthenticated = status === "authenticated";
+  const showAuthButtons = status === "unauthenticated";
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/user-exists");
+        const json = await res.json();
+        if (mounted && json?.success) {
+          setUserExists(Boolean(json.data?.user_exists));
+        }
+      } catch {
+        if (mounted) setUserExists(null);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-gradient-to-br from-[#12031c] via-[#2d0a4a] to-[#18071f] text-white">
       <section className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-6 py-20 lg:grid-cols-2 lg:py-32">
         <div>
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-green">
@@ -192,16 +223,20 @@ export default function HomePage() {
             submissions from any website you don&apos;t control — validated,
             rate-limited, spam-filtered, and geo-enriched.
           </p>
-          <div className="flex items-center gap-3">
-            <Link href="/register">
-              <Button size="lg">Get started</Button>
-            </Link>
-            <Link href="/login">
-              <Button size="lg" variant="secondary">
-                Sign in
-              </Button>
-            </Link>
-          </div>
+          {!isAuthenticated && (
+            <div className="flex items-center gap-3">
+              {(userExists === false || userExists === null) && (
+                <Link href="/register">
+                  <Button size="lg">Get started</Button>
+                </Link>
+              )}
+              <Link href="/login">
+                <Button size="lg" variant="secondary">
+                  Sign in
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="h-[420px] w-full lg:h-[520px]">
@@ -219,7 +254,7 @@ export default function HomePage() {
 
       <HowItWorks />
       <FeaturesSection />
-      <CtaSection />
+      <CtaSection isAuthenticated={isAuthenticated} userExists={userExists} />
       <Footer />
     </main>
   );

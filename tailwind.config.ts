@@ -8,17 +8,21 @@ const config: Config = {
       colors: {
         white: "#ffffff",
         emerald: {
-          950: "#02140d",
-          900: "#062a1b",
-          800: "#0a3f28",
-          700: "#0f5536",
-          600: "#146b44",
-          DEFAULT: "#00c853",
+          950: "#1f1007",
+          900: "#291708",
+          800: "#3c1d0a",
+          700: "#523014",
+          600: "#6b421f",
+          DEFAULT: "#8b5e34",
         },
         green: {
-          DEFAULT: "#34c281",
-          light: "#e6fbf1",
-          dark: "#249a63",
+          DEFAULT: "#8b5e34",
+          light: "#f7efe4",
+          dark: "#6d4b2f",
+        },
+        lime: {
+          500: "#a77c4a",
+          400: "#b48a5d",
         },
         purple: {
           DEFAULT: "#9b5cf0",

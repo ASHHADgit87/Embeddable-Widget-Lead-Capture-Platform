@@ -28,7 +28,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-blue-900 bg-blue-950">
+    <footer className="border-t border-[#4b2b82] bg-[#12021f]/95">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
@@ -48,7 +48,7 @@ export function Footer() {
             <div className="mt-5 space-y-2 text-sm">
               <a
                 href="mailto:hello@widgetplatform.dev"
-                className="flex items-center gap-2 text-white/60 transition hover:text-green"
+                className="flex items-center gap-2 text-white/60 transition hover:text-[#c8b0ff]"
               >
                 <Mail className="h-4 w-4" strokeWidth={1.5} />
                 hello@widgetplatform.dev
@@ -57,7 +57,7 @@ export function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 text-white/60 transition hover:text-purple"
+                className="flex items-center gap-2 text-white/60 transition hover:text-[#c8b0ff]"
               >
                 <Github className="h-4 w-4" strokeWidth={1.5} />
                 View source on GitHub
@@ -72,7 +72,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/50 transition hover:text-green"
+                    className="text-sm text-white/50 transition hover:text-[#c8b0ff]"
                   >
                     {link.label}
                   </Link>
@@ -88,7 +88,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/50 transition hover:text-purple"
+                    className="text-sm text-white/50 transition hover:text-[#c8b0ff]"
                   >
                     {link.label}
                   </Link>

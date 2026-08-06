@@ -89,7 +89,7 @@ export function Navbar({}: NavbarProps) {
       <nav
         className={`fixed top-0 left-0 right-0 z-[100] flex items-center justify-between w-full transition-all duration-500 px-6 md:px-16 lg:px-24 xl:px-32 ${
           scrolled
-            ? "py-3 mt-3 mx-auto max-w-[92%] rounded-2xl bg-emerald-950/95 backdrop-blur-md border border-emerald-700/40 shadow-2xl"
+            ? "py-3 mt-3 mx-auto max-w-[92%] rounded-2xl bg-[#12021f]/95 backdrop-blur-md border border-[#5f2eb2]/40 shadow-2xl"
             : "py-6 mt-0 max-w-full bg-transparent"
         }`}
       >
@@ -136,7 +136,7 @@ export function Navbar({}: NavbarProps) {
                 window.location.href =
                   userExists === false ? "/register" : "/login";
               }}
-              className="px-6 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-lime-500 border-2 border-white/20 hover:scale-105 transition-all shadow-lg text-sm whitespace-nowrap"
+              className="px-6 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-[#8d5cff] via-[#b184ff] to-[#dbaefd] border-2 border-white/20 hover:scale-105 transition-all shadow-lg text-sm whitespace-nowrap"
             >
               {userExists === false ? "Get Started" : "Sign In"}
             </button>
@@ -146,7 +146,7 @@ export function Navbar({}: NavbarProps) {
                 onClick={() => setShowDropdown(!showDropdown)}
                 className="flex items-center gap-3 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full cursor-pointer hover:bg-white/10 transition-all"
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-500 to-lime-400 flex items-center justify-center text-[10px] font-black text-white border border-white/20">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#8c5cff] to-[#d9a5ff] flex items-center justify-center text-[10px] font-black text-white border border-white/20">
                   {getInitials(session.user?.name)}
                 </div>
                 <span className="hidden md:block text-white font-bold text-xs">
@@ -155,7 +155,7 @@ export function Navbar({}: NavbarProps) {
               </div>
 
               {showDropdown && (
-                <div className="absolute right-0 mt-3 w-44 py-2 bg-emerald-950/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl z-[110]">
+                <div className="absolute right-0 mt-3 w-44 py-2 bg-[#12021f]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl z-[110]">
                   <Link
                     href="/profile"
                     onClick={() => setShowDropdown(false)}
@@ -169,7 +169,7 @@ export function Navbar({}: NavbarProps) {
                       setShowDropdown(false);
                       signOut({ callbackUrl: "/" });
                     }}
-                    className="w-full text-left px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-emerald-500 via-lime-500 to-emerald-400 rounded-xl hover:scale-105 transition-all"
+                    className="w-full text-left px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-[#8d5cff] via-[#b184ff] to-[#dbaefd] rounded-xl hover:scale-105 transition-all"
                   >
                     Logout
                   </button>
@@ -198,7 +198,7 @@ export function Navbar({}: NavbarProps) {
       </nav>
 
       {menuOpen && (
-        <div className="fixed inset-0 z-[110] bg-emerald-950/95 backdrop-blur-xl flex flex-col p-10 md:hidden">
+        <div className="fixed inset-0 z-[110] bg-[#12021f]/95 backdrop-blur-xl flex flex-col p-10 md:hidden">
           <div className="flex justify-between items-center mb-10">
             <Image
               src="/logo.png"
@@ -206,6 +206,7 @@ export function Navbar({}: NavbarProps) {
               width={160}
               height={34}
               className="h-10 w-auto"
+              style={{ width: "auto" }}
             />
             <button
               onClick={() => setMenuOpen(false)}
@@ -239,7 +240,7 @@ export function Navbar({}: NavbarProps) {
                     userExists === false ? "/register" : "/login";
                 }
               }}
-              className="py-2 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-lime-500 hover:scale-105 transition-all whitespace-nowrap"
+              className="py-2 rounded-xl font-bold text-white bg-gradient-to-r from-[#8d5cff] via-[#b184ff] to-[#dbaefd] hover:scale-105 transition-all whitespace-nowrap"
             >
               {isAuthenticated
                 ? "Logout"
