@@ -9,6 +9,7 @@ interface RopeProps {
   progress: MotionValue<number>;
   total: number;
   cardRefs: React.RefObject<(HTMLDivElement | null)[]>;
+  xOffset?: number;
 }
 
 function useRopeTexture() {
@@ -46,7 +47,7 @@ function useRopeTexture() {
   }, []);
 }
 
-function RopeMesh({ progress, total, cardRefs }: RopeProps) {
+function RopeMesh({ progress, total, cardRefs, xOffset = 0 }: RopeProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.MeshBasicMaterial>(null);
   const { size } = useThree();
@@ -104,10 +105,12 @@ function RopeMesh({ progress, total, cardRefs }: RopeProps) {
     const anchorRect = anchorEl.getBoundingClientRect();
     const pulledRect = pulledEl.getBoundingClientRect();
 
-    const anchorX = anchorRect.left + anchorRect.width / 2 - size.width / 2;
+    const anchorX =
+      anchorRect.left + anchorRect.width / 2 - size.width / 2 + xOffset;
     const anchorY = size.height / 2 - anchorRect.bottom;
 
-    const pulledX = pulledRect.left + pulledRect.width / 2 - size.width / 2;
+    const pulledX =
+      pulledRect.left + pulledRect.width / 2 - size.width / 2 + xOffset;
     const pulledY = size.height / 2 - pulledRect.top;
 
     const currentGap = Math.max(0, pulledRect.top - anchorRect.bottom);
@@ -179,7 +182,19 @@ export function RopeCanvas({ progress, total, cardRefs }: RopeProps) {
         gl={{ alpha: true }}
         style={{ background: "transparent", pointerEvents: "none" }}
       >
+        <RopeMesh
+          progress={progress}
+          total={total}
+          cardRefs={cardRefs}
+          xOffset={-400}
+        />
         <RopeMesh progress={progress} total={total} cardRefs={cardRefs} />
+        <RopeMesh
+          progress={progress}
+          total={total}
+          cardRefs={cardRefs}
+          xOffset={400}
+        />
       </Canvas>
     </div>
   );
