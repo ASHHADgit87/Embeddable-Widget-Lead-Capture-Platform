@@ -104,7 +104,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/50 transition hover:text-[#6f9dfb]"
+                    className="text-sm text-white/50 transition hover:text-[#c8b0ff]"
                   >
                     {link.label}
                   </Link>
@@ -124,11 +124,11 @@ export function Footer() {
                 type="email"
                 required
                 placeholder="you@email.com"
-                className="w-full rounded-md border border-blue-800 bg-blue-900/60 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-green focus:outline-none"
+                className="w-full rounded-md border border-[#4b2b82] bg-[#1a0525]/70 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-[#9e78ff] focus:outline-none"
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-md bg-green px-3 py-2 text-sm font-medium text-blue-950 transition hover:bg-green-dark"
+                className="shrink-0 rounded-md bg-gradient-to-r from-[#8d5cff] via-[#b184ff] to-[#dbaefd] px-3 py-2 text-sm font-medium text-[#12021f] transition hover:brightness-110"
               >
                 Join
               </button>
@@ -136,7 +136,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-blue-900 pt-8 text-xs text-white/40 sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-[#4b2b82] pt-8 text-xs text-white/40 sm:flex-row">
           <p>© {currentYear} Widget Platform. All rights reserved.</p>
           <p>Built with Next.js, Prisma, and Neon Postgres.</p>
           <p>FlyRank Backend Engineering Internship — Capstone Project.</p>

@@ -11,9 +11,9 @@ function Particles({ count = 400 }: { count?: number }) {
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
     const palette = [
-      new THREE.Color("#34c281"),
+      new THREE.Color("#8b5e34"),
       new THREE.Color("#9b5cf0"),
-      new THREE.Color("#4d7cf0"),
+      new THREE.Color("#b48a5d"),
     ];
 
     for (let i = 0; i < count; i++) {
@@ -68,7 +68,7 @@ export function ParticleField() {
         gl={{ antialias: true, alpha: true }}
       >
         <ambientLight intensity={0.4} />
-        <pointLight position={[5, 5, 5]} intensity={2} color="#34c281" />
+        <pointLight position={[5, 5, 5]} intensity={2} color="#8b5e34" />
         <pointLight position={[-5, -3, -3]} intensity={1.5} color="#9b5cf0" />
         <Particles />
       </Canvas>

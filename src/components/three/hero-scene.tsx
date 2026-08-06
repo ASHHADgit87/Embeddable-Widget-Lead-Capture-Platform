@@ -30,7 +30,7 @@ export function HeroScene() {
       <directionalLight
         position={[-3, -2, -3]}
         intensity={0.8}
-        color="#2f9e5b"
+        color="#8b5e34"
       />
       <Icosahedron ref={meshRef} args={[1.6, 8]}>
         <MeshDistortMaterial
