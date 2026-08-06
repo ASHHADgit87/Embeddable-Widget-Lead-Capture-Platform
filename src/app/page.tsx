@@ -288,13 +288,13 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#12031c] via-[#2d0a4a] to-[#18071f] text-white">
       <section className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-6 pb-12 pt-20 lg:grid-cols-2 lg:py-32">
-        <div>
+        <div className="-ml-[90px]">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-green">
             Embeddable widgets, hardened for the open internet
           </p>
           <h1 className="mb-6 text-4xl font-semibold leading-tight text-white sm:text-5xl">
             One script tag.
-            <br />A backend that survives the internet.
+            <br />A backend that survives <br></br> the internet.
           </h1>
           <p className="mb-6 max-w-lg text-white/60">
             Create a widget, hand out a single embed snippet, and safely accept
@@ -340,7 +340,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="relative h-[420px] w-full lg:h-[520px]">
+        <div className="relative h-[420px] lg:ml-[90px] w-full lg:h-[520px]">
           <div className="pointer-events-none absolute inset-0 hidden sm:block">
             {floatingPills.map((pill) => (
               <div
