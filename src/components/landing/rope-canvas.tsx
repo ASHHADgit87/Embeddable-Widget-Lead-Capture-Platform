@@ -151,7 +151,7 @@ function RopeMesh({ progress, total, cardRefs, xOffset = 0 }: RopeProps) {
     mesh.geometry.dispose();
     mesh.geometry = nextGeometry;
 
-    ropeTexture.repeat.set(1, Math.max(1, ropeLength / 40));
+    ropeTexture.repeat.set(1, Math.max(1, ropeLength / 250));
 
     const fadeIn = THREE.MathUtils.smoothstep(localT, 0, 0.06);
 
