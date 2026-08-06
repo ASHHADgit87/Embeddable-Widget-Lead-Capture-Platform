@@ -15,7 +15,7 @@ interface AuthFormCardProps extends HTMLAttributes<HTMLDivElement> {
 export function AuthFormCard({
   title,
   description,
-  badge = "Widget Platform",
+  badge = "WidgetLy",
   children,
   footer,
   className,
