@@ -7,7 +7,6 @@ import {
 import { StatsCards } from "@/components/dashboard/stats-cards";
 import { SubmissionsTable } from "@/components/dashboard/submissions-table";
 import { GeoBreakdownChart } from "@/components/dashboard/geo-breakdown-chart";
-import { RotatingStructure } from "@/components/three/rotating-structure";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -41,9 +40,6 @@ export default async function DashboardPage() {
         <GeoBreakdownChart geoBreakdown={stats.geoBreakdown} />
       </div>
 
-      <div className="hidden h-[500px] lg:block">
-        <RotatingStructure shape="torusKnot" size={1.6} />
-      </div>
     </main>
   );
 }
