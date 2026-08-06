@@ -20,6 +20,7 @@ import {
   Lock,
   TestTube2,
 } from "lucide-react";
+import { RopeCanvas } from "./rope-canvas";
 
 interface CardData {
   title: string;
@@ -100,7 +101,6 @@ const CARDS: CardData[] = [
     accent: "green",
   },
 ];
-
 const accentClasses: Record<
   CardData["accent"],
   { text: string; ring: string; bg: string }
@@ -126,6 +126,7 @@ interface StackCardProps extends CardData {
   index: number;
   total: number;
   progress: MotionValue<number>;
+  cardRef?: (el: HTMLDivElement | null) => void;
 }
 
 function StackCard({
@@ -136,15 +137,17 @@ function StackCard({
   Icon,
   accent,
   progress,
+  cardRef,
 }: StackCardProps) {
-  const targetScale = 1 - (total - index) * 0.05;
-  const range: [number, number] = [index / total, 1];
+  const targetScale = Math.pow(0.99, total - index);
+  const range: [number, number] = [index / total, (index + 1) / total];
   const scale = useTransform(progress, range, [1, targetScale]);
   const colors = accentClasses[accent];
 
   return (
     <div className="sticky top-0 flex h-screen items-center justify-center px-6">
       <motion.div
+        ref={cardRef}
         style={{
           scale,
           top: `calc(-6vh + ${index * 22}px)`,
@@ -176,6 +179,7 @@ function StackCard({
 
 export function FeaturesSection() {
   const container = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ["start start", "end start"],
@@ -198,9 +202,16 @@ export function FeaturesSection() {
           index={i}
           total={CARDS.length}
           progress={scrollYProgress}
+          cardRef={(el) => (cardRefs.current[i] = el)}
           {...card}
         />
       ))}
+
+      <RopeCanvas
+        progress={scrollYProgress}
+        total={CARDS.length}
+        cardRefs={cardRefs}
+      />
     </section>
   );
 }
