@@ -86,20 +86,6 @@ const CARDS: CardData[] = [
     Icon: BarChart3,
     accent: "purple",
   },
-  {
-    title: "True Tenant Isolation",
-    description:
-      "Every query is scoped at the database layer — one customer can never read or modify another's data.",
-    Icon: Lock,
-    accent: "lightblue",
-  },
-  {
-    title: "Tested, Documented, Reproducible",
-    description:
-      "CORS preflight, invalid payloads, rate limits, and provider fallback — all covered by automated tests.",
-    Icon: TestTube2,
-    accent: "green",
-  },
 ];
 const accentClasses: Record<
   CardData["accent"],
