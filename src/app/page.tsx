@@ -326,12 +326,6 @@ export default function HomePage() {
                   Sign in
                 </Button>
               </Link>
-              <a
-                href="#features"
-                className="text-sm text-white/50 underline decoration-white/20 underline-offset-4 transition hover:text-white/80"
-              >
-                View architecture ↓
-              </a>
             </div>
           )}
 
@@ -378,8 +372,6 @@ export default function HomePage() {
             </Suspense>
           </Canvas>
         </div>
-
-        
       </section>
 
       <HowItWorks />

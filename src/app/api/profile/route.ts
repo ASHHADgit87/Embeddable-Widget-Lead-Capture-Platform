@@ -104,3 +104,34 @@ export async function PATCH(
 
   return NextResponse.json({ success: true, data: { updated: true } });
 }
+
+export async function DELETE(): Promise<
+  NextResponse<ApiResponse<{ deleted: true }>>
+> {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: { code: "UNAUTHORIZED", message: "Sign in required" },
+      },
+      { status: 401 },
+    );
+  }
+
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: { code: "NOT_FOUND", message: "User not found" },
+      },
+      { status: 404 },
+    );
+  }
+
+  await prisma.user.delete({ where: { id: userId } });
+
+  return NextResponse.json({ success: true, data: { deleted: true } });
+}
