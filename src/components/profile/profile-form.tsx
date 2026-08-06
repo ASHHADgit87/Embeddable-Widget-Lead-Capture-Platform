@@ -4,8 +4,13 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import {
+  AuthFormSection,
+  authCardClassName,
+} from "@/components/auth/auth-form-card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ProfileFormProps {
   initialName: string;
@@ -89,12 +94,9 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
         </Button>
       </Link>
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 rounded-lg border border-blue-800 bg-blue-900/60 p-6 backdrop-blur-sm"
-      >
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm text-white/70">Name</label>
+          <label className="mb-1.5 block text-sm text-white/70">Name</label>
           <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -104,7 +106,7 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm text-white/70">Email</label>
+          <label className="mb-1.5 block text-sm text-white/70">Email</label>
           <Input
             type="email"
             value={email}
@@ -115,7 +117,7 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm text-white/70">
+          <label className="mb-1.5 block text-sm text-white/70">
             New password (optional)
           </label>
           <Input
@@ -127,7 +129,7 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm text-white/70">
+          <label className="mb-1.5 block text-sm text-white/70">
             Current password (required to save)
           </label>
           <Input
@@ -141,12 +143,17 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
         {error && <p className="text-sm text-purple">{error}</p>}
         {success && <p className="text-sm text-green">Profile updated.</p>}
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          variant="secondary"
+          disabled={isSubmitting}
+          className="w-full"
+        >
           {isSubmitting ? "Saving…" : "Save changes"}
         </Button>
       </form>
 
-      <div className="rounded-lg border border-blue-800 bg-blue-900/60 p-6 backdrop-blur-sm">
+      <AuthFormSection>
         <p className="mb-3 text-sm text-white/70">
           Permanently delete your account and all associated data.
         </p>
@@ -157,16 +164,19 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
         >
           Delete account
         </Button>
-      </div>
+      </AuthFormSection>
 
       {showDeleteConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#12021f]/95 p-6 backdrop-blur-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#12031c]/90 p-6 backdrop-blur-xl">
           <div
-            className="w-full max-w-sm rounded-lg border border-blue-800 bg-blue-900/70 p-6 backdrop-blur-md"
+            className={cn(authCardClassName, "w-full max-w-sm p-6")}
             role="dialog"
             aria-modal="true"
             aria-labelledby="delete-account-title"
           >
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#ad8cff]">
+              Confirm action
+            </p>
             <h2
               id="delete-account-title"
               className="mb-2 text-lg font-semibold text-white"

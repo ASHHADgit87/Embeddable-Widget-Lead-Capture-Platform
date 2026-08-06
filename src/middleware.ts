@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/db/prisma";
 
 export default auth(async (req) => {
   const isLoggedIn = !!req.auth;
@@ -18,13 +17,6 @@ export default auth(async (req) => {
 
   if (isAuthRoute && isLoggedIn) {
     return NextResponse.redirect(new URL("/dashboard", req.nextUrl.origin));
-  }
-
-  if (pathname === "/register") {
-    const count = await prisma.user.count();
-    if (count > 0) {
-      return NextResponse.redirect(new URL("/login", req.nextUrl.origin));
-    }
   }
 
   return NextResponse.next();

@@ -1,8 +1,16 @@
 "use client";
+
 import { useState, useEffect, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ParticleField } from "@/components/three/particle-field";
+import { AuthPageShell } from "@/components/auth/auth-page-shell";
+import {
+  AuthFormCard,
+  AuthFormField,
+  AuthFormFooter,
+} from "@/components/auth/auth-form-card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -52,81 +60,66 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="relative flex min-h-[calc(100vh-73px)] items-center justify-center px-4">
-      <ParticleField />
-      <div className="relative z-10 w-full max-w-sm rounded-lg border border-blue-800 bg-blue-900/70 p-8 backdrop-blur-md">
-        <h1 className="mb-1 text-xl font-semibold text-white">
-          Create account
-        </h1>
-        <p className="mb-6 text-sm text-white/50">
-          Start creating embeddable widgets.
-        </p>
-
+    <AuthPageShell>
+      <AuthFormCard
+        title="Create account"
+        description="Start creating embeddable widgets."
+        footer={
+          <AuthFormFooter>
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="text-[#c9b3ff] transition hover:text-white"
+            >
+              Sign in
+            </Link>
+          </AuthFormFooter>
+        }
+      >
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="name" className="mb-1 block text-sm text-white/70">
-              Name
-            </label>
-            <input
+          <AuthFormField label="Name" htmlFor="name">
+            <Input
               id="name"
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-md border border-blue-700 bg-blue-900 px-3 py-2 text-sm text-white outline-none focus:border-green"
             />
-          </div>
+          </AuthFormField>
 
-          <div>
-            <label htmlFor="email" className="mb-1 block text-sm text-white/70">
-              Email
-            </label>
-            <input
+          <AuthFormField label="Email" htmlFor="email">
+            <Input
               id="email"
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-md border border-blue-700 bg-blue-900 px-3 py-2 text-sm text-white outline-none focus:border-green"
             />
-          </div>
+          </AuthFormField>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="mb-1 block text-sm text-white/70"
-            >
-              Password
-            </label>
-            <input
+          <AuthFormField label="Password" htmlFor="password">
+            <Input
               id="password"
               type="password"
               required
               minLength={8}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-md border border-blue-700 bg-blue-900 px-3 py-2 text-sm text-white outline-none focus:border-green"
             />
-          </div>
+          </AuthFormField>
 
           {error && <p className="text-sm text-purple">{error}</p>}
 
-          <button
+          <Button
             type="submit"
+            variant="secondary"
             disabled={isSubmitting}
-            className="w-full rounded-md bg-green px-4 py-2 text-sm font-medium text-blue-950 transition hover:bg-green-dark disabled:opacity-60"
+            className="w-full"
           >
             {isSubmitting ? "Creating account…" : "Create account"}
-          </button>
+          </Button>
         </form>
-
-        <p className="mt-6 text-center text-sm text-white/50">
-          Already have an account?{" "}
-          <Link href="/login" className="text-purple hover:text-purple-dark">
-            Sign in
-          </Link>
-        </p>
-      </div>
-    </main>
+      </AuthFormCard>
+    </AuthPageShell>
   );
 }

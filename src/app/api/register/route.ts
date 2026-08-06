@@ -4,6 +4,8 @@ import { registerSchema } from "@/lib/validation/schemas";
 import { prisma } from "@/lib/db/prisma";
 import type { ApiResponse } from "@/types";
 
+export const runtime = "nodejs";
+
 export async function POST(
   request: Request,
 ): Promise<NextResponse<ApiResponse<{ id: string }>>> {
