@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Widget Platform — Embeddable Widgets & Lead Capture",
+  title: "WidgetLy",
   description:
     "Create embeddable widgets and safely capture leads from any website.",
   icons: { icon: "/favicon.ico" },

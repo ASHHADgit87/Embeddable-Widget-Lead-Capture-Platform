@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Mail } from "lucide-react";
+import { Github } from "lucide-react";
 
 const productLinks = [
   { href: "/register", label: "Get started" },
@@ -26,19 +26,15 @@ const legalLinks = [
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const yearText = currentYear === 2026 ? "2026" : `2026-${currentYear}`;
 
   return (
-    <footer className="border-t border-[#4b2b82] bg-[#12021f]/95">
+    <footer className="bg-gradient-to-b from-[#18071f] via-[#150419] to-[#12021f]">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Link href="/" className="mb-4 inline-flex items-center">
-              <Image
-                src="/logo.png"
-                alt="Widget Platform"
-                width={180}
-                height={38}
-              />
+            <Link href="/" className="mb-4  inline-flex items-center">
+              <Image src="/logo.png" alt="WidgetLy" width={180} height={38} />
             </Link>
             <p className="max-w-xs text-sm text-white/50">
               An embeddable widget and lead-capture engine built for the open
@@ -47,14 +43,7 @@ export function Footer() {
             </p>
             <div className="mt-5 space-y-2 text-sm">
               <a
-                href="mailto:hello@widgetplatform.dev"
-                className="flex items-center gap-2 text-white/60 transition hover:text-[#c8b0ff]"
-              >
-                <Mail className="h-4 w-4" strokeWidth={1.5} />
-                hello@widgetplatform.dev
-              </a>
-              <a
-                href="https://github.com"
+                href="https://github.com/ashhadgit87/widgetly"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-2 text-white/60 transition hover:text-[#c8b0ff]"
@@ -99,7 +88,7 @@ export function Footer() {
 
           <div>
             <h4 className="mb-4 text-sm font-semibold text-white">Legal</h4>
-            <ul className="mb-6 space-y-3">
+            <ul className="space-y-3">
               {legalLinks.map((link) => (
                 <li key={link.label}>
                   <Link
@@ -111,36 +100,14 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-
-            <h4 className="mb-2 text-sm font-semibold text-white">Subscribe</h4>
-            <p className="mb-3 text-xs text-white/40">
-              Build notes and engineering updates, occasionally.
-            </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex items-center gap-2"
-            >
-              <input
-                type="email"
-                required
-                placeholder="you@email.com"
-                className="w-full rounded-md border border-[#4b2b82] bg-[#1a0525]/70 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-[#9e78ff] focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="shrink-0 rounded-md bg-gradient-to-r from-[#8d5cff] via-[#b184ff] to-[#dbaefd] px-3 py-2 text-sm font-medium text-[#12021f] transition hover:brightness-110"
-              >
-                Join
-              </button>
-            </form>
           </div>
         </div>
-
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-[#4b2b82] pt-8 text-xs text-white/40 sm:flex-row">
-          <p>© {currentYear} Widget Platform. All rights reserved.</p>
-          <p>Built with Next.js, Prisma, and Neon Postgres.</p>
-          <p>FlyRank Backend Engineering Internship — Capstone Project.</p>
-        </div>
+      </div>
+      <div className="py-6 text-center text-sm font-semibold text-white/70">
+        <p>
+          Copyright © {yearText} Widget Platform — Muhammad Ashhadullah Zaheer.
+          All rights reserved.
+        </p>
       </div>
     </footer>
   );
