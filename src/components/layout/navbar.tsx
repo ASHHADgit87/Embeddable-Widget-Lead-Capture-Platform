@@ -106,12 +106,7 @@ export function Navbar({}: NavbarProps) {
 
         <div className="hidden md:flex items-center gap-12 text-base font-bold text-white">
           
-          <Link
-            href="/about"
-            className="text-white/70 hover:text-white transition-all"
-          >
-            About
-          </Link>
+          
           {isAuthenticated &&
             authedLinks.map((link) => (
               <Link
@@ -214,9 +209,7 @@ export function Navbar({}: NavbarProps) {
 
           <div className="flex flex-col gap-6 text-xl text-white font-bold">
             
-            <Link href="/about" onClick={() => setMenuOpen(false)}>
-              About
-            </Link>
+            
             {isAuthenticated && (
               <Link href="/profile" onClick={() => setMenuOpen(false)}>
                 Profile
