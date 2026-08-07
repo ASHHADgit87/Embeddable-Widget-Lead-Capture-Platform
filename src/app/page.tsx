@@ -284,6 +284,8 @@ export default function HomePage() {
       mounted = false;
     };
   }, []);
+  const ctaLabel = userExists === false ? "Get started" : "Sign in";
+  const ctaHref = userExists === false ? "/register" : "/login";
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#12031c] via-[#2d0a4a] to-[#18071f] text-white">
@@ -316,15 +318,8 @@ export default function HomePage() {
 
           {!isAuthenticated && (
             <div className="flex flex-wrap items-center gap-3">
-              {(userExists === false || userExists === null) && (
-                <Link href="/register">
-                  <Button size="lg">Get started</Button>
-                </Link>
-              )}
-              <Link href="/login">
-                <Button size="lg" variant="secondary">
-                  Sign in
-                </Button>
+              <Link href={ctaHref}>
+                <Button size="lg">{ctaLabel}</Button>
               </Link>
             </div>
           )}

@@ -84,6 +84,9 @@ export function Navbar({}: NavbarProps) {
 
   if (status === "loading") return null;
 
+  const ctaLabel = userExists === false ? "Get Started" : "Sign In";
+  const ctaHref = userExists === false ? "/register" : "/login";
+
   return (
     <>
       <nav
@@ -105,8 +108,6 @@ export function Navbar({}: NavbarProps) {
         </Link>
 
         <div className="hidden md:flex items-center gap-12 text-base font-bold text-white">
-          
-          
           {isAuthenticated &&
             authedLinks.map((link) => (
               <Link
@@ -123,12 +124,11 @@ export function Navbar({}: NavbarProps) {
           {!isAuthenticated ? (
             <button
               onClick={() => {
-                window.location.href =
-                  userExists === false ? "/register" : "/login";
+                window.location.href = ctaHref;
               }}
               className="px-6 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-[#8d5cff] via-[#b184ff] to-[#dbaefd] border-2 border-white/20 hover:scale-105 transition-all shadow-lg text-sm whitespace-nowrap"
             >
-              {userExists === false ? "Get Started" : "Sign In"}
+              {ctaLabel}
             </button>
           ) : (
             <div className="relative">
@@ -208,8 +208,6 @@ export function Navbar({}: NavbarProps) {
           </div>
 
           <div className="flex flex-col gap-6 text-xl text-white font-bold">
-            
-            
             {isAuthenticated && (
               <Link href="/profile" onClick={() => setMenuOpen(false)}>
                 Profile
@@ -222,17 +220,12 @@ export function Navbar({}: NavbarProps) {
                   signOut({ callbackUrl: "/" });
                 } else {
                   setMenuOpen(false);
-                  window.location.href =
-                    userExists === false ? "/register" : "/login";
+                  window.location.href = ctaHref;
                 }
               }}
               className="py-2 rounded-xl font-bold text-white bg-gradient-to-r from-[#8d5cff] via-[#b184ff] to-[#dbaefd] hover:scale-105 transition-all whitespace-nowrap"
             >
-              {isAuthenticated
-                ? "Logout"
-                : userExists === false
-                  ? "Get Started"
-                  : "Sign In"}
+              {isAuthenticated ? "Logout" : ctaLabel}
             </button>
           </div>
         </div>

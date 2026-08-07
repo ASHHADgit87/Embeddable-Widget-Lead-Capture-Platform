@@ -131,7 +131,6 @@ export function CtaSection({ isAuthenticated, userExists }: CtaSectionProps) {
         transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl border border-[#6f33b8] bg-gradient-to-br from-[#11021d] via-[#22094b] to-[#2d0e52] px-8 py-16 text-center shadow-[0_0_90px_rgba(133,71,255,0.18)]"
       >
-       
         <div className="pointer-events-none absolute inset-0 opacity-25">
           <Canvas
             camera={{ position: [0, 0, 6], fov: 40 }}
@@ -180,26 +179,14 @@ export function CtaSection({ isAuthenticated, userExists }: CtaSectionProps) {
               </Button>
             </Link>
           ) : (
-            <>
-              {(userExists === false || userExists === null) && (
-                <Link href="/register">
-                  <Button
-                    size="lg"
-                    className="border border-[#8f5cf0]/50 bg-gradient-to-r from-[#8f5cf0] to-[#6f33b8] text-white hover:opacity-90"
-                  >
-                    Get started free
-                  </Button>
-                </Link>
-              )}
-              <Link href="/login">
-                <Button
-                  size="lg"
-                  className="border-[#6f33b8]/60 bg-[#1a0630] text-[#c9b3ff] hover:bg-[#22094b]"
-                >
-                  Sign in
-                </Button>
-              </Link>
-            </>
+            <Link href={userExists === false ? "/register" : "/login"}>
+              <Button
+                size="lg"
+                className="border border-[#8f5cf0]/50 bg-gradient-to-r from-[#8f5cf0] to-[#6f33b8] text-white hover:opacity-90"
+              >
+                {userExists === false ? "Get started free" : "Sign in"}
+              </Button>
+            </Link>
           )}
         </div>
       </motion.div>
