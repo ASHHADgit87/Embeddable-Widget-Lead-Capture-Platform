@@ -11,6 +11,7 @@ interface NavbarProps {}
 const authedLinks = [
   { href: "/dashboard", label: "Overview" },
   { href: "/widgets", label: "Widgets" },
+  { href: "/docs", label: "Docs" },
   { href: "/profile", label: "Profile" },
 ];
 
