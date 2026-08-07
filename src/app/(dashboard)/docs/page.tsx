@@ -2,50 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { DocsScene } from "@/components/three/docs-scene";
 import { PipelineFlow } from "@/components/docs/pipeline-flow";
-
-const endpoints = [
-  {
-    method: "GET",
-    path: "/api/widgets/:id/config",
-    description:
-      "Public, cached widget config. Short-lived cache headers, small payload — served the way a CDN would.",
-    access: "Public · CORS",
-  },
-  {
-    method: "POST",
-    path: "/api/submissions",
-    description:
-      "Public submission endpoint. Validates every field, rate-limits per IP and per widget, checks the honeypot, enriches with geo, and stores — all before the response returns.",
-    access: "Public · CORS",
-  },
-  {
-    method: "GET",
-    path: "/api/widget-bundle/:version",
-    description:
-      "Versioned widget JavaScript bundle. Cached long, immutable — bust the cache by publishing a new version.",
-    access: "Public · CORS",
-  },
-  {
-    method: "GET / POST",
-    path: "/api/widgets",
-    description:
-      "Authenticated widget CRUD. Tenant-isolated — one account can never see another's widgets.",
-    access: "Authenticated",
-  },
-  {
-    method: "GET",
-    path: "/api/widgets/:id/submissions",
-    description: "Owner-only submissions for a single widget, paginated.",
-    access: "Authenticated",
-  },
-  {
-    method: "GET",
-    path: "/api/dashboard/stats",
-    description:
-      "Aggregate counts, per-widget stats, and geo breakdown across all your widgets.",
-    access: "Authenticated",
-  },
-];
+import { EndpointStack } from "@/components/docs/endpoint-stack";
 
 const statusCodes = [
   { code: "200 / 201", meaning: "Submission or resource accepted and stored." },
@@ -69,7 +26,7 @@ export default async function DocsPage() {
   return (
     <div className="space-y-16">
       <div className="relative overflow-hidden rounded-2xl border border-[#5b2f99] bg-[#15072d]/70">
-        <div className="pointer-events-none absolute inset-0 opacity-70">
+        <div className="pointer-events-none absolute inset-0">
           <DocsScene />
         </div>
         <div className="relative z-10 max-w-xl p-8">
@@ -85,7 +42,7 @@ export default async function DocsPage() {
             dashboard.
           </p>
         </div>
-        <div className="h-[280px] w-full sm:h-[340px]" />
+        <div className="h-[300px] w-full sm:h-[360px]" />
       </div>
 
       <div>
@@ -95,50 +52,7 @@ export default async function DocsPage() {
         <PipelineFlow />
       </div>
 
-      <div>
-        <h2 className="mb-4 text-sm font-medium text-white/70">Endpoints</h2>
-        <div className="overflow-hidden rounded-xl border border-[#5b2f99] bg-[#15072d]/70">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-[#5b2f99] text-white/50">
-                <th className="px-4 py-3 font-medium">Method</th>
-                <th className="px-4 py-3 font-medium">Path</th>
-                <th className="px-4 py-3 font-medium">Description</th>
-                <th className="px-4 py-3 font-medium">Access</th>
-              </tr>
-            </thead>
-            <tbody>
-              {endpoints.map((endpoint) => (
-                <tr
-                  key={endpoint.path}
-                  className="border-b border-[#5b2f99]/50 text-white/80 last:border-0"
-                >
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-green">
-                    {endpoint.method}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-[#c9b3ff]">
-                    {endpoint.path}
-                  </td>
-                  <td className="px-4 py-3 text-white/60">
-                    {endpoint.description}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`rounded-full border px-2 py-0.5 text-[11px] ${
-                        endpoint.access === "Public · CORS"
-                          ? "border-[#6f9dfb]/40 text-[#6f9dfb]"
-                          : "border-purple/40 text-purple"
-                      }`}
-                    >
-                      {endpoint.access}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <EndpointStack />
 
       <div>
         <h2 className="mb-4 text-sm font-medium text-white/70">
