@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { DocsScene } from "@/components/three/docs-scene";
+import { PipelineFlow } from "@/components/docs/pipeline-flow";
 
 const endpoints = [
   {
@@ -46,31 +47,19 @@ const endpoints = [
   },
 ];
 
-const pipeline = [
+const statusCodes = [
+  { code: "200 / 201", meaning: "Submission or resource accepted and stored." },
   {
-    step: "01",
-    title: "Validate",
-    detail:
-      "Malformed or oversized payloads are rejected with clean 4xx JSON — never a 500.",
+    code: "400",
+    meaning: "Malformed or invalid JSON — rejected before validation runs.",
   },
+  { code: "403", meaning: "Origin not in the allowed CORS list." },
   {
-    step: "02",
-    title: "Rate limit + spam check",
-    detail:
-      "Per-IP and per-widget limits return 429 under a burst. The honeypot silently drops bots.",
+    code: "404",
+    meaning: "Widget not found, inactive, or owned by another tenant.",
   },
-  {
-    step: "03",
-    title: "Geo enrichment",
-    detail:
-      "IP → location tries Provider A, then Provider B. If both fail, the submission still succeeds without geo.",
-  },
-  {
-    step: "04",
-    title: "Store, then notify",
-    detail:
-      "The row is saved first. A failing confirmation email or webhook can never break the main path.",
-  },
+  { code: "413", meaning: "Payload exceeds the maximum allowed size." },
+  { code: "429", meaning: "Rate limit hit — retry after the window resets." },
 ];
 
 export default async function DocsPage() {
@@ -78,12 +67,12 @@ export default async function DocsPage() {
   if (!session?.user?.id) redirect("/login");
 
   return (
-    <div className="space-y-12">
-      <div className="relative overflow-hidden rounded-2xl border border-[#5b2f99] bg-[#15072d]/70 p-8">
-        <div className="pointer-events-none absolute inset-0 opacity-60">
+    <div className="space-y-16">
+      <div className="relative overflow-hidden rounded-2xl border border-[#5b2f99] bg-[#15072d]/70">
+        <div className="pointer-events-none absolute inset-0 opacity-70">
           <DocsScene />
         </div>
-        <div className="relative z-10 max-w-2xl">
+        <div className="relative z-10 max-w-xl p-8">
           <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#ad8cff]">
             API reference
           </p>
@@ -91,35 +80,19 @@ export default async function DocsPage() {
             How submissions move through the system
           </h1>
           <p className="mt-2 text-sm text-white/60">
-            Every endpoint your widgets rely on, and the four-step pipeline
+            Every endpoint your widgets rely on, and the eight-stage pipeline
             every public submission passes through before it lands in your
             dashboard.
           </p>
         </div>
+        <div className="h-[280px] w-full sm:h-[340px]" />
       </div>
 
       <div>
-        <h2 className="mb-4 text-sm font-medium text-white/70">
+        <h2 className="mb-6 text-sm font-medium text-white/70">
           The hardened submission pipeline
         </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {pipeline.map((item) => (
-            <div
-              key={item.step}
-              className="rounded-xl border border-[#5b2f99] bg-[#15072d]/70 p-5"
-            >
-              <span className="font-mono text-xs text-[#ad8cff]">
-                {item.step}
-              </span>
-              <h3 className="mt-2 text-sm font-semibold text-white">
-                {item.title}
-              </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-white/50">
-                {item.detail}
-              </p>
-            </div>
-          ))}
-        </div>
+        <PipelineFlow />
       </div>
 
       <div>
@@ -164,6 +137,25 @@ export default async function DocsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div>
+        <h2 className="mb-4 text-sm font-medium text-white/70">
+          Response codes you&apos;ll see
+        </h2>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {statusCodes.map((item) => (
+            <div
+              key={item.code}
+              className="rounded-lg border border-[#5b2f99] bg-[#15072d]/70 p-4"
+            >
+              <span className="font-mono text-sm text-[#c9b3ff]">
+                {item.code}
+              </span>
+              <p className="mt-1 text-xs text-white/55">{item.meaning}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
