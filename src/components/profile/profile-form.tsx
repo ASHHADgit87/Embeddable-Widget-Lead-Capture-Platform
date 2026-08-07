@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import {
   AuthFormSection,
   authCardClassName,
@@ -19,6 +19,7 @@ interface ProfileFormProps {
 
 export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
   const router = useRouter();
+  const { update: updateSession } = useSession();
   const [name, setName] = useState(initialName);
   const [email, setEmail] = useState(initialEmail);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -53,6 +54,7 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
       setError(json.error?.message ?? "Update failed.");
       return;
     }
+    await updateSession({ name, email });
 
     setSuccess(true);
     setCurrentPassword("");
