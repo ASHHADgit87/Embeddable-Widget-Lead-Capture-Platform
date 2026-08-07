@@ -3,7 +3,7 @@
 import { Suspense, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import type { Group, Mesh, Points } from "three";
+import type { Group, Mesh, Points, Sprite as SpriteType } from "three";
 
 const NODE_COLORS = [
   "#6f9dfb",
@@ -15,11 +15,69 @@ const NODE_COLORS = [
   "#e0b7ff",
   "#34c281",
 ];
+const NODE_LABELS = [
+  "Request In",
+  "Validate",
+  "Rate Limit",
+  "Honeypot",
+  "Store",
+  "Geo-Enrich",
+  "Webhook",
+  "Response Out",
+];
 const NODE_COUNT = NODE_COLORS.length;
 const PULSE_COUNT = 5;
 const RING_RADIUS = 3.4;
+function useLabelTexture(text: string, color: string) {
+  return useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 256;
+    canvas.height = 64;
+    const ctx = canvas.getContext("2d")!;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "600 28px monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = color;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 12;
+    ctx.fillText(text.toUpperCase(), canvas.width / 2, canvas.height / 2);
 
-function PipelineRing() {
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }, [text, color]);
+}
+
+function NodeLabel({
+  text,
+  color,
+  position,
+}: {
+  text: string;
+  color: string;
+  position: THREE.Vector3;
+}) {
+  const spriteRef = useRef<SpriteType>(null);
+  const texture = useLabelTexture(text, color);
+
+  const labelPos = useMemo(() => {
+    const dir = position.clone().normalize();
+    return position.clone().addScaledVector(dir, 0.55);
+  }, [position]);
+
+  return (
+    <sprite ref={spriteRef} position={labelPos} scale={[1.4, 0.35, 1]}>
+      <spriteMaterial map={texture} transparent depthWrite={false} />
+    </sprite>
+  );
+}
+
+type SpeedRef = React.MutableRefObject<number> & {
+  hoverRef: React.MutableRefObject<boolean>;
+};
+
+function PipelineRing({ speedMultiplier }: { speedMultiplier: SpeedRef }) {
   const groupRef = useRef<Group>(null);
   const coreRef = useRef<Mesh>(null);
   const coreShellRef = useRef<Mesh>(null);
@@ -48,20 +106,22 @@ function PipelineRing() {
   );
 
   useFrame((_, delta) => {
+    const speed = speedMultiplier.current;
+
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.06;
+      groupRef.current.rotation.y += delta * 0.06 * speed;
     }
     if (coreRef.current) {
-      coreRef.current.rotation.y += delta * 0.25;
-      coreRef.current.rotation.x += delta * 0.1;
+      coreRef.current.rotation.y += delta * 0.25 * speed;
+      coreRef.current.rotation.x += delta * 0.1 * speed;
     }
     if (coreShellRef.current) {
-      coreShellRef.current.rotation.y -= delta * 0.08;
+      coreShellRef.current.rotation.y -= delta * 0.08 * speed;
     }
 
     nodeRefs.current.forEach((node, i) => {
       if (!node) return;
-      const t = performance.now() * 0.001 + i;
+      const t = performance.now() * 0.001 * speed + i;
       node.scale.setScalar(1 + Math.sin(t * 1.5) * 0.08);
     });
 
@@ -78,7 +138,7 @@ function PipelineRing() {
       const color = new THREE.Color();
 
       for (let i = 0; i < PULSE_COUNT; i++) {
-        pulseProgress.current[i]! += delta * 0.09;
+        pulseProgress.current[i]! += delta * 0.09 * speed;
         if (pulseProgress.current[i]! > 1) pulseProgress.current[i]! -= 1;
 
         const scaled = pulseProgress.current[i]! * NODE_COUNT;
@@ -175,6 +235,11 @@ function PipelineRing() {
               roughness={0.3}
             />
           </mesh>
+          <NodeLabel
+            text={NODE_LABELS[i]!}
+            color={NODE_COLORS[i]!}
+            position={pos}
+          />
         </group>
       ))}
       <points ref={pulsesRef}>
@@ -202,6 +267,15 @@ function PipelineRing() {
         />
       </points>
 
+      <mesh
+        position={[0, 0, 0]}
+        onPointerEnter={() => (speedMultiplier.hoverRef.current = true)}
+        onPointerLeave={() => (speedMultiplier.hoverRef.current = false)}
+      >
+        <sphereGeometry args={[RING_RADIUS + 1, 16, 16]} />
+        <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
+      </mesh>
+
       <ambientLight intensity={0.7} />
       <pointLight position={[4, 3, 4]} intensity={1.4} color="#9b5cf0" />
       <pointLight position={[-4, -2, -3]} intensity={1} color="#6f9dfb" />
@@ -210,7 +284,26 @@ function PipelineRing() {
   );
 }
 
+function SpeedController({
+  hoverRef,
+  outRef,
+}: {
+  hoverRef: React.MutableRefObject<boolean>;
+  outRef: React.MutableRefObject<number>;
+}) {
+  useFrame((_, delta) => {
+    const target = hoverRef.current ? 7 : 1;
+    outRef.current = THREE.MathUtils.damp(outRef.current, target, 8, delta);
+  });
+  return null;
+}
+
 export function DocsScene() {
+  const hoverRef = useRef(false);
+  const speedRef = useRef(1);
+  const speedMultiplier = speedRef as unknown as SpeedRef;
+  speedMultiplier.hoverRef = hoverRef;
+
   return (
     <div className="h-full w-full">
       <Canvas
@@ -219,7 +312,8 @@ export function DocsScene() {
         gl={{ antialias: true, alpha: true }}
       >
         <Suspense fallback={null}>
-          <PipelineRing />
+          <SpeedController hoverRef={hoverRef} outRef={speedRef} />
+          <PipelineRing speedMultiplier={speedMultiplier} />
         </Suspense>
       </Canvas>
     </div>
