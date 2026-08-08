@@ -12,7 +12,12 @@ export function MonitorFrame({ children }: MonitorFrameProps) {
           {children}
         </div>
 
-        <div className="mx-auto mt-3 h-1.5 w-1.5 rounded-full bg-[#4a4a56]" />
+        <div className="mt-3 flex items-center justify-center gap-2">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-[#9b5cf0]">
+            WidgetLy
+          </span>
+          <span className="h-1.5 w-1.5 rounded-full bg-[#4a4a56]" />
+        </div>
       </div>
 
       <div className="mx-auto h-10 w-24 bg-gradient-to-b from-[#2a2a32] to-[#232329]" />
