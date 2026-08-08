@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   }
 
   const secret = process.env.NEXTAUTH_SECRET ?? "dev_secret";
-  const token = signJwt({ sub: userId }, secret, 24 * 60 * 60);
+  const token = signJwt({ sub: userId }, secret, 20 * 60 * 60);
   const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
 
   return NextResponse.json({ success: true, data: { token, expiresAt } });
