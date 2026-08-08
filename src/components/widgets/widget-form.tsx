@@ -92,16 +92,18 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {error && <p className="text-sm text-purple">{error}</p>}
+      {error && (
+        <p className="rounded-md border border-[#5b2f99] bg-[#2a0a3d]/60 px-3 py-2 text-sm text-[#ff9d9d]">
+          {error}
+        </p>
+      )}
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">
-          Widget type
-        </label>
+        <label className="mb-1 block text-sm text-white/60">Widget type</label>
         <select
           value={type}
           onChange={(e) => setType(e.target.value as Widget["type"])}
-          className="w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-sm text-neutral-50 outline-none focus:border-blue"
+          className="w-full rounded-md border border-[#4b2b82] bg-[#1a0525] px-3 py-2 text-sm text-white outline-none focus:border-[#9e78ff]"
         >
           <option value="SIGNUP_FORM">Signup form</option>
           <option value="CONTACT_FORM">Contact form</option>
@@ -110,7 +112,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">Title</label>
+        <label className="mb-1 block text-sm text-white/60">Title</label>
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -120,9 +122,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">
-          Description
-        </label>
+        <label className="mb-1 block text-sm text-white/60">Description</label>
         <Input
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -131,9 +131,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">
-          Button text
-        </label>
+        <label className="mb-1 block text-sm text-white/60">Button text</label>
         <Input
           value={buttonText}
           onChange={(e) => setButtonText(e.target.value)}
@@ -143,13 +141,8 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
 
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <label className="text-sm text-neutral-300">Fields</label>
-          <Button
-            type="button"
-            size="sm"
-            variant="secondary"
-            onClick={addField}
-          >
+          <label className="text-sm text-white/60">Fields</label>
+          <Button type="button" size="sm" variant="primary" onClick={addField}>
             Add field
           </Button>
         </div>
@@ -158,7 +151,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
           {fields.map((field, index) => (
             <div
               key={index}
-              className="grid grid-cols-12 gap-2 rounded-md border border-neutral-700 p-3"
+              className="grid grid-cols-12 gap-2 rounded-md border border-[#4b2b82] bg-[#15072d]/50 p-3"
             >
               <Input
                 className="col-span-4"
@@ -173,7 +166,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
                 placeholder="Label"
               />
               <select
-                className="col-span-3 rounded-md border border-neutral-700 bg-neutral-900 px-2 py-2 text-sm text-neutral-50"
+                className="col-span-3 rounded-md border border-[#4b2b82] bg-[#1a0525] px-2 py-2 text-sm text-white"
                 value={field.type}
                 onChange={(e) =>
                   updateField(index, {
@@ -190,7 +183,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
               <button
                 type="button"
                 onClick={() => removeField(index)}
-                className="col-span-1 text-xs text-purple hover:underline"
+                className="col-span-1 text-xs text-[#ff9d9d] hover:underline"
               >
                 Remove
               </button>
@@ -199,7 +192,7 @@ export function WidgetForm({ initialWidget }: WidgetFormProps) {
         </div>
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
+      <Button type="submit" variant="secondary" disabled={isSubmitting}>
         {isSubmitting
           ? "Saving…"
           : isEditing
