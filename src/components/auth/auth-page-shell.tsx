@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 interface AuthPageShellProps {
   children: ReactNode;
-  maxWidth?: "sm" | "md";
+  maxWidth?: "sm" | "md" | "lg";
   className?: string;
 }
 
@@ -24,7 +24,11 @@ export function AuthPageShell({
       <div
         className={cn(
           "relative z-10 w-full",
-          maxWidth === "md" ? "max-w-md" : "max-w-sm",
+          maxWidth === "lg"
+            ? "max-w-2xl"
+            : maxWidth === "md"
+              ? "max-w-md"
+              : "max-w-sm",
         )}
       >
         {children}

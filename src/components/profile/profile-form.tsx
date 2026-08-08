@@ -97,49 +97,51 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
       </Link>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="mb-1.5 block text-sm text-white/70">Name</label>
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            maxLength={120}
-          />
-        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label className="mb-1.5 block text-sm text-white/70">Name</label>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              maxLength={120}
+            />
+          </div>
 
-        <div>
-          <label className="mb-1.5 block text-sm text-white/70">Email</label>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            maxLength={200}
-          />
-        </div>
+          <div>
+            <label className="mb-1.5 block text-sm text-white/70">Email</label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              maxLength={200}
+            />
+          </div>
 
-        <div>
-          <label className="mb-1.5 block text-sm text-white/70">
-            New password (optional)
-          </label>
-          <Input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            minLength={8}
-          />
-        </div>
+          <div>
+            <label className="mb-1.5 block text-sm text-white/70">
+              New password (optional)
+            </label>
+            <Input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              minLength={8}
+            />
+          </div>
 
-        <div>
-          <label className="mb-1.5 block text-sm text-white/70">
-            Current password (required to save)
-          </label>
-          <Input
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            required
-          />
+          <div>
+            <label className="mb-1.5 block text-sm text-white/70">
+              Current password (required to save)
+            </label>
+            <Input
+              type="password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              required
+            />
+          </div>
         </div>
 
         {error && <p className="text-sm text-purple">{error}</p>}
@@ -149,23 +151,25 @@ export function ProfileForm({ initialName, initialEmail }: ProfileFormProps) {
           type="submit"
           variant="secondary"
           disabled={isSubmitting}
-          className="w-full"
+          className="w-full sm:w-auto"
         >
           {isSubmitting ? "Saving…" : "Save changes"}
         </Button>
       </form>
 
       <AuthFormSection>
-        <p className="mb-3 text-sm text-white/70">
-          Permanently delete your account and all associated data.
-        </p>
-        <Button
-          type="button"
-          variant="danger"
-          onClick={() => setShowDeleteConfirm(true)}
-        >
-          Delete account
-        </Button>
+        <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+          <p className="text-sm text-white/70">
+            Permanently delete your account and all associated data.
+          </p>
+          <Button
+            type="button"
+            variant="danger"
+            onClick={() => setShowDeleteConfirm(true)}
+          >
+            Delete account
+          </Button>
+        </div>
       </AuthFormSection>
 
       {showDeleteConfirm && (

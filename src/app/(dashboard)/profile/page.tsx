@@ -18,7 +18,7 @@ export default async function ProfilePage() {
 
   return (
     <AuthPageShell
-      maxWidth="md"
+      maxWidth="lg"
       className="-mx-6 -my-10 min-h-[calc(100vh-73px)]"
     >
       <AuthFormCard
