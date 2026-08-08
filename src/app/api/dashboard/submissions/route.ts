@@ -8,7 +8,8 @@ export async function GET(
   request: Request,
 ): Promise<NextResponse<ApiResponse<Submission[]>>> {
   const session = await auth();
-  if (!session?.user) {
+  const userId = session?.user?.id;
+  if (!userId) {
     return NextResponse.json(
       {
         success: false,
@@ -23,7 +24,7 @@ export async function GET(
   const limitParam = url.searchParams.get("limit");
   const offsetParam = url.searchParams.get("offset");
 
-  const submissions = await listSubmissionsForTenant(session.user.id, {
+  const submissions = await listSubmissionsForTenant(userId, {
     widgetId,
     limit: limitParam ? Number(limitParam) : undefined,
     offset: offsetParam ? Number(offsetParam) : undefined,

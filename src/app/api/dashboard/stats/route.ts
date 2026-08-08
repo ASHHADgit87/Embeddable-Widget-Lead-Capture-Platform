@@ -10,7 +10,8 @@ export async function GET(): Promise<
   NextResponse<ApiResponse<DashboardStats>>
 > {
   const session = await auth();
-  if (!session?.user) {
+  const userId = session?.user?.id;
+  if (!userId) {
     return NextResponse.json(
       {
         success: false,
@@ -20,6 +21,8 @@ export async function GET(): Promise<
     );
   }
 
-  const stats = await getDashboardStats(session.user.id);
+  const stats = await getDashboardStats(userId);
+
+  
   return NextResponse.json({ success: true, data: stats });
 }

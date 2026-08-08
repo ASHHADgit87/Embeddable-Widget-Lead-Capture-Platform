@@ -10,7 +10,8 @@ import type { Widget } from "@prisma/client";
 
 export async function GET(): Promise<NextResponse<ApiResponse<Widget[]>>> {
   const session = await auth();
-  if (!session?.user) {
+  const userId = session?.user?.id;
+  if (!userId) {
     return NextResponse.json(
       {
         success: false,
@@ -20,7 +21,7 @@ export async function GET(): Promise<NextResponse<ApiResponse<Widget[]>>> {
     );
   }
 
-  const widgets = await listWidgetsForTenant(session.user.id);
+  const widgets = await listWidgetsForTenant(userId);
   return NextResponse.json({ success: true, data: widgets });
 }
 
@@ -28,7 +29,8 @@ export async function POST(
   request: Request,
 ): Promise<NextResponse<ApiResponse<Widget>>> {
   const session = await auth();
-  if (!session?.user) {
+  const userId = session?.user?.id;
+  if (!userId) {
     return NextResponse.json(
       {
         success: false,
@@ -69,6 +71,6 @@ export async function POST(
     );
   }
 
-  const widget = await createWidget(session.user.id, parsed.data);
+  const widget = await createWidget(userId, parsed.data);
   return NextResponse.json({ success: true, data: widget }, { status: 201 });
 }

@@ -18,7 +18,8 @@ export async function GET(
   { params }: RouteContext,
 ): Promise<NextResponse<ApiResponse<Widget>>> {
   const session = await auth();
-  if (!session?.user) {
+  const userId = session?.user?.id;
+  if (!userId) {
     return NextResponse.json(
       {
         success: false,
@@ -29,7 +30,7 @@ export async function GET(
   }
 
   const { id } = await params;
-  const widget = await getWidgetForTenant(id, session.user.id);
+  const widget = await getWidgetForTenant(id, userId);
   if (!widget) {
     return NextResponse.json(
       {
@@ -48,7 +49,8 @@ export async function PATCH(
   { params }: RouteContext,
 ): Promise<NextResponse<ApiResponse<Widget>>> {
   const session = await auth();
-  if (!session?.user) {
+  const userId = session?.user?.id;
+  if (!userId) {
     return NextResponse.json(
       {
         success: false,
@@ -90,7 +92,7 @@ export async function PATCH(
   }
 
   const { id } = await params;
-  const widget = await updateWidgetForTenant(id, session.user.id, parsed.data);
+  const widget = await updateWidgetForTenant(id, userId, parsed.data);
   if (!widget) {
     return NextResponse.json(
       {
@@ -109,7 +111,8 @@ export async function DELETE(
   { params }: RouteContext,
 ): Promise<NextResponse<ApiResponse<{ deleted: true }>>> {
   const session = await auth();
-  if (!session?.user) {
+  const userId = session?.user?.id;
+  if (!userId) {
     return NextResponse.json(
       {
         success: false,
@@ -120,7 +123,7 @@ export async function DELETE(
   }
 
   const { id } = await params;
-  const deleted = await deleteWidgetForTenant(id, session.user.id);
+  const deleted = await deleteWidgetForTenant(id, userId);
   if (!deleted) {
     return NextResponse.json(
       {
